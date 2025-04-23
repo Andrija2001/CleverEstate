@@ -1,4 +1,5 @@
-﻿using CleverEstate.Forms.Buildings;
+using CleverEstate.Forms.Apartments;
+using CleverEstate.Forms.Buildings;
 using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
@@ -54,11 +55,27 @@ namespace CleverEstate.Forms.Clients
 
         public void PopulateDataGridView()
         {
-            var listaklijenata = service.GetAllClients();
+
+            var clientList = service.GetAllClients();
             bindingSource1.Clear();
-            foreach (var klijent in listaklijenata)
+
+            foreach (var client in clientList)
             {
-                bindingSource1.Add(klijent);
+                var client1 = new Client
+                {
+                    Id = client.Id,
+                    Address = client.Address,
+                    BankAccount = client.BankAccount,
+                    City = client.City,
+                    InvoiceId = client.InvoiceId,
+                    Name = client.Name,
+                    PIB = client.PIB,
+                    Surname = client.Surname,
+
+                };
+
+
+                bindingSource1.Add(client1);
             }
         }
 
@@ -139,7 +156,7 @@ namespace CleverEstate.Forms.Clients
             {
                 dataGridView1.Columns["InvoiceId"].Visible = false;
                 dataGridView1.Columns["Id"].Visible = false;
- 
+
             }
         }
 
@@ -154,10 +171,27 @@ namespace CleverEstate.Forms.Clients
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
             {
-                var selectedItem = (Client)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                FrmAddClient frmAddClient  = new FrmAddClient(this, service, selectedItem);
-                frmAddClient.ShowDialog();
-                PopulateDataGridView();
+                var selectedClient = (Client)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                FrmAddClient frm3 = new FrmAddClient(this, service, selectedClient);
+                frm3.ShowDialog();
+                int index = bindingSource1.IndexOf(selectedClient);
+                if (index != -1)
+                {
+                    var updatedClient = new Client
+                    {
+                        Address = selectedClient.Address,
+                        Surname = selectedClient.Surname,
+                        PIB = selectedClient.PIB,
+                        BankAccount = selectedClient.BankAccount,
+                        City = selectedClient.City,
+                        Id = selectedClient.Id,
+                        InvoiceId = selectedClient.InvoiceId,
+                        Name = selectedClient.Name,
+
+                    };
+                    bindingSource1[index] = updatedClient;
+                    bindingSource1.ResetBindings(false);
+                }
             }
         }
     }
