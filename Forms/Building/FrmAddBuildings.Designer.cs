@@ -86,6 +86,7 @@
             this.txtAddress.Size = new System.Drawing.Size(136, 25);
             this.txtAddress.TabIndex = 5;
             this.txtAddress.WordWrap = false;
+            this.txtAddress.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAddress_KeyPress);
             // 
             // button1
             // 

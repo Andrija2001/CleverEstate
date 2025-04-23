@@ -54,9 +54,9 @@ namespace CleverEstate.Forms.Buildings
             {
                 currentBuilding.Address = txtAddress.Text;
                 service.Update(currentBuilding);
-                
+                this.Close();
             }
-            this.Close();
+            
         }
         private void txtAddress_KeyPress(object sender, KeyPressEventArgs e)
         {

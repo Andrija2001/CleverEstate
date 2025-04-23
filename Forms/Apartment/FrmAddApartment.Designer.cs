@@ -62,6 +62,7 @@
             this.txtNumber.Name = "txtNumber";
             this.txtNumber.Size = new System.Drawing.Size(138, 20);
             this.txtNumber.TabIndex = 3;
+            this.txtNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumber_KeyPress);
             // 
             // label1
             // 
@@ -94,6 +95,7 @@
             this.txtArea.Name = "txtArea";
             this.txtArea.Size = new System.Drawing.Size(138, 20);
             this.txtArea.TabIndex = 2;
+            this.txtArea.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumber_KeyPress);
             // 
             // button1
             // 

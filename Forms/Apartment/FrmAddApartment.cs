@@ -51,22 +51,10 @@ namespace CleverEstate.Forms.Apartments
                 currentApartment.Area = decimal.Parse(txtArea.Text);
                 currentApartment.Number = int.Parse(txtNumber.Text);
                 service.Update(currentApartment);
-                this.Close();
+                frmApartment.PopulateDataGridView();
             }
         }
         private void txtNumber_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-            }
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private void txtArea_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {

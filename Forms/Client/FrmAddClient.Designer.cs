@@ -78,48 +78,48 @@
             // txtBankAccount
             // 
             this.txtBankAccount.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtBankAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBankAccount.Location = new System.Drawing.Point(147, 224);
+            this.txtBankAccount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBankAccount.Location = new System.Drawing.Point(147, 227);
             this.txtBankAccount.Name = "txtBankAccount";
-            this.txtBankAccount.Size = new System.Drawing.Size(136, 26);
+            this.txtBankAccount.Size = new System.Drawing.Size(136, 20);
             this.txtBankAccount.TabIndex = 5;
             // 
             // txtName
             // 
             this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtName.Location = new System.Drawing.Point(147, 9);
+            this.txtName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtName.Location = new System.Drawing.Point(147, 12);
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(136, 26);
+            this.txtName.Size = new System.Drawing.Size(136, 20);
             this.txtName.TabIndex = 0;
             this.txtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
             // txtCity
             // 
             this.txtCity.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtCity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCity.Location = new System.Drawing.Point(147, 181);
+            this.txtCity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCity.Location = new System.Drawing.Point(147, 184);
             this.txtCity.Name = "txtCity";
-            this.txtCity.Size = new System.Drawing.Size(136, 26);
+            this.txtCity.Size = new System.Drawing.Size(136, 20);
             this.txtCity.TabIndex = 3;
             this.txtCity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
             // txtAddress
             // 
             this.txtAddress.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAddress.Location = new System.Drawing.Point(147, 95);
+            this.txtAddress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAddress.Location = new System.Drawing.Point(147, 98);
             this.txtAddress.Name = "txtAddress";
-            this.txtAddress.Size = new System.Drawing.Size(136, 26);
+            this.txtAddress.Size = new System.Drawing.Size(136, 20);
             this.txtAddress.TabIndex = 2;
             // 
             // txtSurname
             // 
             this.txtSurname.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSurname.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSurname.Location = new System.Drawing.Point(147, 52);
+            this.txtSurname.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSurname.Location = new System.Drawing.Point(147, 55);
             this.txtSurname.Name = "txtSurname";
-            this.txtSurname.Size = new System.Drawing.Size(136, 26);
+            this.txtSurname.Size = new System.Drawing.Size(136, 20);
             this.txtSurname.TabIndex = 1;
             this.txtSurname.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
@@ -198,10 +198,10 @@
             // txtPIB
             // 
             this.txtPIB.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.txtPIB.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPIB.Location = new System.Drawing.Point(147, 138);
+            this.txtPIB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPIB.Location = new System.Drawing.Point(147, 141);
             this.txtPIB.Name = "txtPIB";
-            this.txtPIB.Size = new System.Drawing.Size(136, 26);
+            this.txtPIB.Size = new System.Drawing.Size(136, 20);
             this.txtPIB.TabIndex = 4;
             this.txtPIB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPIB_KeyPress);
             // 
@@ -209,7 +209,7 @@
             // 
             this.button1.AutoSize = true;
             this.button1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(94, 298);
+            this.button1.Location = new System.Drawing.Point(94, 289);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(121, 41);
             this.button1.TabIndex = 6;

@@ -74,7 +74,7 @@ namespace CleverEstate.Forms.Invoices
                 currentInvoice.Description = txtDescription.Text;
                 currentInvoice.PaymentDeadline = dateTimePicker2.Value;
                 currentInvoice.InvoiceDate = dateTimePicker3.Value;
-                currentInvoice.Period = $"{new DateTime(today.Year, today.Month, 1):dd.MM.yyyy} - {new DateTime(today.Year, today.Month, 1).AddMonths(1).AddDays(-1):dd.MM.yyyy}";
+                currentInvoice.Period = $"{new DateTime(dateTimePicker3.Value.Year, dateTimePicker3.Value.Month, 1):dd.MM.yyyy} - {new DateTime(dateTimePicker3.Value.Year, dateTimePicker3.Value.Month, 1).AddMonths(1).AddDays(-1):dd.MM.yyyy}";
                 currentInvoice.Date = today;
                 currentInvoice.Month =  dateTimePicker3.Value.ToString("MMMM");
                 service.Update(currentInvoice);
