@@ -44,15 +44,17 @@ namespace CleverEstate.Forms.Apartments
                 service.Create(apartments);
                 frmApartment.bindingSource1.Add(apartments);
                 frmApartment.PopulateDataGridView();
-                this.Close();
+             
             }
             else
             {
                 currentApartment.Area = decimal.Parse(txtArea.Text);
                 currentApartment.Number = int.Parse(txtNumber.Text);
                 service.Update(currentApartment);
-                frmApartment.PopulateDataGridView();
+               
+                this.Close();
             }
+
         }
         private void txtNumber_KeyPress(object sender, KeyPressEventArgs e)
         {

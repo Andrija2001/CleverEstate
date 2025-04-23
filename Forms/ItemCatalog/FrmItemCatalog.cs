@@ -1,5 +1,6 @@
 ﻿using CleverEstate.Forms.Buildings;
 using CleverEstate.Forms.Clients;
+using CleverEstate.Forms.InvoiceItems;
 using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
@@ -59,11 +60,20 @@ namespace CleverEstate.Forms.CatalogItem
 
         public void PopulateDataGridView()
         {
-            var listakataloga = service.GetAllCatalogItems();
+            var CatalogItemList = service.GetAllCatalogItems();
             bindingSource1.Clear();
-            foreach (var katalog in listakataloga)
+            foreach (var catalog in CatalogItemList)
             {
-                bindingSource1.Add(katalog);
+                var ItemCatalogCopy = new ItemCatalog
+                {
+                    Id = catalog.Id,
+                    Name = catalog.Name,
+                    PricePerUnit = catalog.PricePerUnit,
+                    Unit = catalog.Unit
+
+                };
+                bindingSource1.Add(ItemCatalogCopy);
+
             }
         }
         private void SetupDataGridView()
@@ -157,10 +167,24 @@ namespace CleverEstate.Forms.CatalogItem
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
             {
-                var selectedItem = (ItemCatalog)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                FrmAddItemCatalog frmAddItemCatalog = new FrmAddItemCatalog(this, service, selectedItem);
-                frmAddItemCatalog.ShowDialog();
-                PopulateDataGridView();
+                var selectedCatalogItem = (ItemCatalog)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                FrmAddItemCatalog frm3 = new FrmAddItemCatalog(this, service, selectedCatalogItem);
+                frm3.ShowDialog();
+                int index = bindingSource1.IndexOf(selectedCatalogItem);
+                if (index != -1)
+                {
+                    var updatedItemCatalog = new ItemCatalog
+                    {
+                        Id = selectedCatalogItem.Id,
+                        Name = selectedCatalogItem.Name,
+                        PricePerUnit = selectedCatalogItem.PricePerUnit,
+                        Unit = selectedCatalogItem.Unit,
+
+
+                    };
+                    bindingSource1[index] = updatedItemCatalog;
+                    bindingSource1.ResetBindings(false);
+                }
             }
         }
     }

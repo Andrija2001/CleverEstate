@@ -51,9 +51,18 @@ namespace CleverEstate.Forms.Apartments
         {
             var listaApartmana = service.GetAllApartments();
             bindingSource1.Clear();
+
             foreach (var apartment in listaApartmana)
             {
-                bindingSource1.Add(apartment);
+                var apartmentCopy = new Apartment
+                {
+                    Id = apartment.Id,
+                    Area = apartment.Area,
+                    Number = apartment.Number
+                };
+
+                
+                bindingSource1.Add(apartmentCopy);
             }
         }
         private void SetupDataGridView()
@@ -148,7 +157,18 @@ namespace CleverEstate.Forms.Apartments
                 var selectedApartment = (Apartment)dataGridView1.Rows[e.RowIndex].DataBoundItem;
                 FrmAddApartment frm3 = new FrmAddApartment(this, service, selectedApartment);
                 frm3.ShowDialog();
-                PopulateDataGridView();
+                int index = bindingSource1.IndexOf(selectedApartment);
+                if (index != -1)
+                {
+                    var updatedApartment = new Apartment
+                    {
+                        Id = selectedApartment.Id,
+                        Area = selectedApartment.Area,
+                        Number = selectedApartment.Number
+                    };
+                    bindingSource1[index] = updatedApartment;
+                    bindingSource1.ResetBindings(false); 
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using CleverEstate.Forms.Buildings;
+﻿using CleverEstate.Forms.Apartments;
+using CleverEstate.Forms.Buildings;
 using CleverEstate.Forms.Clients;
 using CleverEstate.Models;
 using CleverState.Services.Classes;
@@ -99,7 +100,22 @@ namespace CleverEstate.Forms.InvoiceItems
             bindingSource1.Clear();
             foreach (var invoiceItem in listInvoiceItems)
             {
-                bindingSource1.Add(invoiceItem);
+                var invoiceItemCopy = new InvoiceItem
+                {
+                    Id = invoiceItem.Id,
+                    InvoiceId = invoiceItem.Id,
+                    ItemCatalogId = invoiceItem.ItemCatalogId,
+                    Number = invoiceItem.Number,    
+                    PricePerUnit = invoiceItem.PricePerUnit,
+                    Quantity = invoiceItem.Quantity,
+                    TotalPrice = invoiceItem.TotalPrice,
+                    VAT = invoiceItem.VAT,
+                    VATRate = invoiceItem.VATRate
+
+                };
+
+
+                bindingSource1.Add(invoiceItemCopy);
             }
         }
 
@@ -157,10 +173,29 @@ namespace CleverEstate.Forms.InvoiceItems
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
             {
-                var selectedItem = (InvoiceItem)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                FrmAddInvoiceItem frmAddInvoiceItem = new FrmAddInvoiceItem(this, service, selectedItem);
-                frmAddInvoiceItem.ShowDialog();
-                PopulateDataGridView();
+                var selectedInvoiceItem = (InvoiceItem)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                FrmAddInvoiceItem frm3 = new FrmAddInvoiceItem(this, service, selectedInvoiceItem);
+                frm3.ShowDialog();
+                int index = bindingSource1.IndexOf(selectedInvoiceItem);
+                if (index != -1)
+                {
+                    var updatedInvoice = new InvoiceItem
+                    {
+                        InvoiceId = selectedInvoiceItem.InvoiceId,  
+                        VATRate = selectedInvoiceItem.VATRate,
+                        VAT= selectedInvoiceItem.VAT,
+                        TotalPrice = selectedInvoiceItem.TotalPrice,
+                        Quantity = selectedInvoiceItem.Quantity,
+                        PricePerUnit = selectedInvoiceItem.PricePerUnit,
+                        Number = selectedInvoiceItem.Number,
+                        Id = selectedInvoiceItem.Id,
+                        ItemCatalogId = selectedInvoiceItem.ItemCatalogId
+
+
+                    };
+                    bindingSource1[index] = updatedInvoice;
+                    bindingSource1.ResetBindings(false);
+                }
             }
         }
     }

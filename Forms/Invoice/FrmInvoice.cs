@@ -1,4 +1,5 @@
 ﻿using CleverEstate.Forms.Buildings;
+using CleverEstate.Forms.Clients;
 using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
@@ -59,7 +60,21 @@ namespace CleverEstate.Forms.Invoices
             bindingSource1.Clear();
             foreach (var apartment in InvoiceList)
             {
-                bindingSource1.Add(apartment);
+                var invoicecopy = new Invoice
+                {
+                    Id = apartment.Id,
+                    Date = apartment.Date,
+                    Description = apartment.Description,
+                    InvoiceDate = apartment.InvoiceDate,
+                    InvoiceNumber = apartment.InvoiceNumber,
+                    Month = apartment.Month,
+                    PaymentDeadline = apartment.PaymentDeadline,
+                    Period = apartment.Period,
+                   
+                  
+
+                };
+                bindingSource1.Add(invoicecopy);
             }
         }
 
@@ -154,10 +169,27 @@ namespace CleverEstate.Forms.Invoices
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
             {
-                var selectedItem = (Invoice)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                FrmAddInvoice frmAddInvoice = new FrmAddInvoice(this, service, selectedItem);
-                frmAddInvoice.ShowDialog();
-                PopulateDataGridView();
+                var selectedInvoice = (Invoice)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                FrmAddInvoice frm3 = new FrmAddInvoice(this, service, selectedInvoice);
+                frm3.ShowDialog();
+                int index = bindingSource1.IndexOf(selectedInvoice);
+                if (index != -1)
+                {
+                    var updatedInvoice = new Invoice
+                    {
+                       Period = selectedInvoice.Period,
+                       PaymentDeadline = selectedInvoice.PaymentDeadline,
+                       Month = selectedInvoice.Month,
+                       Date = selectedInvoice.Date,
+                        Description = selectedInvoice.Description,
+                        Id  = selectedInvoice.Id,
+                         InvoiceDate = selectedInvoice.InvoiceDate,
+                         InvoiceNumber = selectedInvoice.InvoiceNumber
+
+                    };
+                    bindingSource1[index] = updatedInvoice;
+                    bindingSource1.ResetBindings(false);
+                }
             }
         }
     }

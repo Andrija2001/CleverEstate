@@ -56,6 +56,7 @@ namespace CleverEstate.Forms.CatalogItem
                 service.Update(currentCatalogItem);
             }
             this.Close();
+            
         }
         private void txtUnit_KeyPress(object sender, KeyPressEventArgs e)
         {
