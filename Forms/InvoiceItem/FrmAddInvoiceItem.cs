@@ -1,7 +1,9 @@
-﻿using CleverEstate.Models;
+﻿using CleverEstate.Forms.CatalogItem;
+using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
 using System.Windows.Forms;
+using System.Xml.Linq;
 namespace CleverEstate.Forms.InvoiceItems
 {
     public partial class FrmAddInvoiceItem : Form
@@ -32,38 +34,43 @@ namespace CleverEstate.Forms.InvoiceItems
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            string Number = txtNumber.Text;
-            decimal PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
-            int Quantity = int.Parse(txtQuantity.Text);
-            decimal TotalPrice = decimal.Parse(txtTotalPrice.Text);
-            decimal VAT = decimal.Parse(txtVAT.Text);
-            decimal VATRate = decimal.Parse(txtVATRate.Text);
-            if (isEditMode && CurrentInvoiceItem != null)
+            if (!isEditMode)
             {
-                CurrentInvoiceItem.Number = Number;
-                CurrentInvoiceItem.PricePerUnit = PricePerUnit;
-                CurrentInvoiceItem.Quantity = Quantity;
-                CurrentInvoiceItem.TotalPrice = TotalPrice;
-                CurrentInvoiceItem.VAT = VAT;
-                CurrentInvoiceItem.VATRate = VATRate;
-                service.Update(CurrentInvoiceItem);
+                InvoiceItem InvoiceItem = new InvoiceItem();
+                if (txtNumber.Text == "" || txtPricePerUnit.Text == "" || txtQuantity.Text == "" || txtTotalPrice.Text == "" || txtVAT.Text == "" || txtVATRate.Text == "")
+                {
+                    return;
+                }
+                string Number = txtNumber.Text;
+                decimal PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
+                int Quantity = int.Parse(txtQuantity.Text);
+                decimal TotalPrice = decimal.Parse(txtTotalPrice.Text);
+                decimal VAT=decimal.Parse(txtVAT.Text);
+                decimal VATRate = decimal.Parse(txtVATRate.Text);
+                InvoiceItem.Id = Guid.NewGuid();
+                InvoiceItem.InvoiceId = Guid.NewGuid();
+                InvoiceItem.ItemCatalogId = Guid.NewGuid();
+                InvoiceItem.Number = Number;
+                InvoiceItem.PricePerUnit= PricePerUnit;
+                InvoiceItem.Quantity = Quantity;
+                InvoiceItem.TotalPrice = TotalPrice;
+                InvoiceItem.VAT= VAT;
+                InvoiceItem.VATRate= VATRate;
+                service.Create(InvoiceItem);
+                FrmInvoiceItem.bindingSource1.Add(InvoiceItem);
+                FrmInvoiceItem.PopulateDataGridView();
             }
             else
             {
-                InvoiceItem newInvoiceItem = new InvoiceItem
-                {
-                    Id = Guid.NewGuid(),
-                    Number= Number,
-                    PricePerUnit = PricePerUnit,
-                    Quantity = Quantity,
-                    TotalPrice = TotalPrice,
-                    VAT = VAT,
-                    VATRate = VATRate
-                };
-                service.Create(newInvoiceItem);
+                CurrentInvoiceItem.Number = txtNumber.Text;
+                CurrentInvoiceItem.PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
+                CurrentInvoiceItem.Quantity =int.Parse(txtQuantity.Text);
+                CurrentInvoiceItem.TotalPrice = decimal.Parse(txtTotalPrice.Text);
+                CurrentInvoiceItem.VAT = decimal.Parse(txtVAT.Text);
+                CurrentInvoiceItem.VATRate = decimal.Parse(txtVATRate.Text);
+                service.Update(CurrentInvoiceItem);
             }
-            this.Hide();
-            FrmInvoiceItem.LoadInvoiceItems();
+            this.Close();
         }
         private void FrmAddInvoiceItem_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -77,5 +84,7 @@ namespace CleverEstate.Forms.InvoiceItems
                 e.Handled = true;
             }
         }
+
+        
     }
 }

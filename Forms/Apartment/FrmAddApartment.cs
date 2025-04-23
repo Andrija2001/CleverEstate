@@ -6,49 +6,53 @@ namespace CleverEstate.Forms.Apartments
 {
     public partial class FrmAddApartment : Form
     {
-        ApartmentService service;
         FrmApartment frmApartment;
+        ApartmentService service;
         private Apartment currentApartment;
         private bool isEditMode;
         public FrmAddApartment(FrmApartment parentForm, ApartmentService service, Apartment ApartmentToEdit)
-       : this(parentForm, service)
+            : this(parentForm, service)
         {
             this.currentApartment = ApartmentToEdit;
             this.isEditMode = true;
-            this.Text = "FrmEditApartmants";
-            button1.Text = "Edit Apartmant";
+            this.Text = "FrmEdit";
+            button1.Text = "Ok";
             txtArea.Text = ApartmentToEdit.Area.ToString();
             txtNumber.Text = ApartmentToEdit.Number.ToString();
         }
 
-        public FrmAddApartment(FrmApartment frmApartment, ApartmentService service)
+        public FrmAddApartment(FrmApartment formApartment, ApartmentService service)
         {
             InitializeComponent();
-            this.frmApartment = frmApartment;
             this.service = service;
+            frmApartment = formApartment;
         }
         private void btnAddApartmans_Click(object sender, EventArgs e)
         {
-            int number = int.Parse(txtNumber.Text);
-            decimal area = decimal.Parse(txtArea.Text);
-            if (isEditMode && currentApartment != null)
+            if (!isEditMode)
             {
-                currentApartment.Number = number;
-                currentApartment.Area = area;
-                service.Update(currentApartment);
+                Apartment apartments = new Apartment();
+                if (txtArea.Text == "" || txtNumber.Text == "")
+                {
+                    return;
+                }
+                int number = int.Parse(txtNumber.Text);
+                decimal area = decimal.Parse(txtArea.Text);
+                apartments.Id = Guid.NewGuid();
+                apartments.Area = area;
+                apartments.Number = number;
+                service.Create(apartments);
+                frmApartment.bindingSource1.Add(apartments);
+                frmApartment.PopulateDataGridView();
+                this.Close();
             }
             else
             {
-                Apartment newApartment = new Apartment
-                {
-                    Id = Guid.NewGuid(),
-                    Number = number,
-                    Area = area
-                };
-                service.Create(newApartment);
+                currentApartment.Area = decimal.Parse(txtArea.Text);
+                currentApartment.Number = int.Parse(txtNumber.Text);
+                service.Update(currentApartment);
+                this.Close();
             }
-            this.Hide();
-            frmApartment.LoadApartmants();
         }
         private void txtNumber_KeyPress(object sender, KeyPressEventArgs e)
         {

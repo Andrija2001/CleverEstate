@@ -1,4 +1,5 @@
-﻿using CleverEstate.Forms.Buildings;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using CleverEstate.Forms.Buildings;
 using CleverEstate.Forms.Clients;
 using CleverEstate.Models;
 using CleverState.Services.Classes;
@@ -13,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Tab;
 
 namespace CleverEstate.Forms.Invoices
 {
@@ -42,46 +44,42 @@ namespace CleverEstate.Forms.Invoices
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(txtInvoiceNumber.Text, out int invoiceNumber))
+            DateTime today = DateTime.Today;
+            if (!isEditMode)
             {
-                return;
-            }
-
-            DateTime paymentDeadline = dateTimePicker2.Value;
-            DateTime invoiceDate = dateTimePicker3.Value;
-            string description = txtDescription.Text;
-
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                return;
-            }
-
-            if (isEditMode && currentInvoice != null)
-            {
-                currentInvoice.PaymentDeadline = paymentDeadline;
-                currentInvoice.InvoiceNumber = invoiceNumber;
-                currentInvoice.InvoiceDate = invoiceDate;
-                currentInvoice.Description = description;
-                service.Update(currentInvoice);
+                Invoice invoice = new Invoice();
+                if (txtDescription.Text == "" || txtDescription.Text == "")
+                {
+                    return;
+                }
+                int InvoiceNumber = int.Parse(txtInvoiceNumber.Text);
+                string Description = txtDescription.Text;
+                DateTime PaymentDeadline = dateTimePicker2.Value;
+                DateTime InvoiceDate = dateTimePicker3.Value;
+                invoice.Id = Guid.NewGuid();
+                invoice.Date = today;
+                invoice.Month =dateTimePicker3.Value.ToString("MMMM");
+                invoice.PaymentDeadline = PaymentDeadline;
+                invoice.Period = $"{new DateTime(today.Year, today.Month, 1):dd.MM.yyyy} - {new DateTime(today.Year, today.Month, 1).AddMonths(1).AddDays(-1):dd.MM.yyyy}";
+                invoice.InvoiceNumber = InvoiceNumber;
+                invoice.InvoiceDate = InvoiceDate;
+                invoice.Description = Description;
+                service.Create(invoice);
+                FrmInvoice.bindingSource1.Add(invoice);
+                FrmInvoice.PopulateDataGridView();
             }
             else
             {
-                DateTime today = DateTime.Today;
-                Invoice invoice = new Invoice
-                {
-                    Id = Guid.NewGuid(),
-                    Date = today,
-                    Month = today.ToString("MMMM"),
-                    Period = $"{new DateTime(today.Year, today.Month, 1):dd.MM.yyyy} - {new DateTime(today.Year, today.Month, 1).AddMonths(1).AddDays(-1):dd.MM.yyyy}",
-                    PaymentDeadline = paymentDeadline,
-                    InvoiceNumber = invoiceNumber,
-                    InvoiceDate = invoiceDate,
-                    Description = description
-                };
-                service.Create(invoice);
+                currentInvoice.InvoiceNumber =int.Parse(txtInvoiceNumber.Text);
+                currentInvoice.Description = txtDescription.Text;
+                currentInvoice.PaymentDeadline = dateTimePicker2.Value;
+                currentInvoice.InvoiceDate = dateTimePicker3.Value;
+                currentInvoice.Period = $"{new DateTime(today.Year, today.Month, 1):dd.MM.yyyy} - {new DateTime(today.Year, today.Month, 1).AddMonths(1).AddDays(-1):dd.MM.yyyy}";
+                currentInvoice.Date = today;
+                currentInvoice.Month =  dateTimePicker3.Value.ToString("MMMM");
+                service.Update(currentInvoice);
             }
-            this.Hide();
-            FrmInvoice.LoadInvoices();
+            this.Close();
         }
         private void txtInvoiceNumber_KeyPress(object sender, KeyPressEventArgs e)
         {

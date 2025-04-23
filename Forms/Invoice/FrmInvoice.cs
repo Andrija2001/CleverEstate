@@ -1,118 +1,164 @@
-﻿using CleverEstate.Models;
+﻿using CleverEstate.Forms.Buildings;
+using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 
 namespace CleverEstate.Forms.Invoices
 {
     public partial class FrmInvoice : Form
     {
-        public InvoiceService service;
-        private List<Invoice> _dataSource;
-        public List<Invoice> DataSource
-        {
-            get => _dataSource;
-            set
-            {
-                _dataSource = value;
-                DataBind();
-            }
-        }
-        public  void DataBind()
-        {
-            tableLayoutPanel1.SuspendLayout();
-            for (int i = tableLayoutPanel1.RowCount - 1; i > 0; i--)
-            {
-                for (int j = 0; j < tableLayoutPanel1.ColumnCount; j++)
-                {
-                    var control = tableLayoutPanel1.GetControlFromPosition(j, i);
-                    if (control != null)
-                        tableLayoutPanel1.Controls.Remove(control);
-                }
-            }
-            while (tableLayoutPanel1.RowStyles.Count > 1)
-            {
-                tableLayoutPanel1.RowStyles.RemoveAt(1);
-            }
-            tableLayoutPanel1.RowCount = 1;
-            if (_dataSource == null)
-                return;
-            foreach (var invoice in _dataSource)
-            {
-                AddRowToPanel(tableLayoutPanel1, invoice);
-            }
-            tableLayoutPanel1.ResumeLayout();
-        }
+        private Button addNewRowButton = new Button();
+        private Panel buttonPanel = new Panel();
+        private InvoiceService service;
+        public BindingSource bindingSource1 = new BindingSource();
+        Font font = new Font("Arial", 12);
+
         public FrmInvoice()
         {
             InitializeComponent();
-            service = new InvoiceService();
-            LoadInvoices();
+            InitializeDataGridView();
         }
-        public void LoadInvoices()
+        private void InitializeDataGridView()
         {
-            DataSource = service.GetAllInvoices();
-        }
-        private void AddRowToPanel(TableLayoutPanel panel, Invoice invoice)
-        {
-            int rowIndex = panel.RowCount++;
-            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
-            Label lblDate = new Label();
-            lblDate.DataBindings.Add("Text", invoice, "Date");
-            panel.Controls.Add(lblDate, 0, rowIndex);
-            Label lblMonth = new Label();
-            lblMonth.DataBindings.Add("Text", invoice, "Month");
-            panel.Controls.Add(lblMonth, 1, rowIndex);
-            Label lblPaymentDeadline = new Label();
-            lblPaymentDeadline.DataBindings.Add("Text", invoice, "PaymentDeadline");
-            panel.Controls.Add(lblPaymentDeadline, 2, rowIndex);
-            Label lblPeriod = new Label();
-            lblPeriod.DataBindings.Add("Text", invoice, "Period");
-            lblPeriod.Dock = DockStyle.Fill;
-            panel.Controls.Add(lblPeriod, 3, rowIndex);
-            Label lblInvoiceNumber = new Label();
-            lblInvoiceNumber.DataBindings.Add("Text", invoice, "InvoiceNumber");
-            panel.Controls.Add(lblInvoiceNumber, 4, rowIndex);
-            Label lblInvoiceDate = new Label();
-            lblInvoiceDate.DataBindings.Add("Text", invoice, "InvoiceDate");
-            panel.Controls.Add(lblInvoiceDate, 5, rowIndex);
-            Label lblDescription = new Label();
-            lblDescription.DataBindings.Add("Text", invoice, "Description");
-            panel.Controls.Add(lblDescription, 6, rowIndex);
-            Button btnDelete = new Button() { Text = "Delete" };
-            btnDelete.Click += (s, e) => {
-                DeleteApartment(invoice.Id);
-            };
-            panel.Controls.Add(btnDelete, 7, rowIndex);
-            Button btnEdit = new Button() { Text = "Edit" };
-            btnEdit.Click += (s, e) => {
-                EditRow(invoice.Id);
-            };
-            panel.Controls.Add(btnEdit, 8, rowIndex);
-        }
-        private void DeleteApartment(Guid Id)
-        {
-            tableLayoutPanel1.SuspendLayout();
-            service.Delete(Id);
-            LoadInvoices();
-            tableLayoutPanel1.ResumeLayout();
-        }
-        private void EditRow(Guid InvoiceId)
-        {
-            var Invoice = service.GetAllInvoices().FirstOrDefault(x => x.Id == InvoiceId);
-            if (Invoice != null)
+            try
             {
-                FrmAddInvoice frmedit = new FrmAddInvoice(this, service, Invoice);
-                frmedit.ShowDialog();
+                dataGridView1.Dock = DockStyle.Fill;
+                dataGridView1.AutoGenerateColumns = true;
+                dataGridView1.DataSource = bindingSource1;
+                dataGridView1.AutoSizeRowsMode =
+                     DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+                dataGridView1.BorderStyle = BorderStyle.Fixed3D;
+
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("To run this sample replace connection.ConnectionString" +
+                    " with a valid connection string to a Northwind" +
+                    " database accessible to your system.", "ERROR",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                System.Threading.Thread.CurrentThread.Abort();
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+
+        private void FrmInvoice_Load(object sender, EventArgs e)
+        {
+            service = new InvoiceService();
+            SetupLayout();
+            SetupDataGridView();
+            PopulateDataGridView();
+        }
+        public void PopulateDataGridView()
+        {
+            var InvoiceList = service.GetAllInvoices();
+            bindingSource1.Clear();
+            foreach (var apartment in InvoiceList)
+            {
+                bindingSource1.Add(apartment);
+            }
+        }
+
+        private void SetupDataGridView()
+        { 
+            this.Controls.Add(dataGridView1);
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font =
+                new Font(dataGridView1.Font, FontStyle.Bold);
+            dataGridView1.Name = "songsDataGridView";
+            dataGridView1.Location = new Point(8, 8);
+            dataGridView1.Size = new Size(500, 250);
+            dataGridView1.AutoSizeRowsMode =
+                DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dataGridView1.ColumnHeadersBorderStyle =
+                DataGridViewHeaderBorderStyle.Single;
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dataGridView1.GridColor = Color.Black;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.SelectionMode =
+            DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.MultiSelect = false;
+            dataGridView1.Dock = DockStyle.Fill;
+
+        }
+
+        private void SetupLayout()
+        {
+            this.Size = new Size(600, 500);
+            addNewRowButton.Text = "Add Row";
+            addNewRowButton.Font = font;
+            addNewRowButton.AutoSize = true;
+            addNewRowButton.Location = new Point(10, 10);
+            addNewRowButton.Click += new EventHandler(addNewRowButton_Click);
+            buttonPanel.Controls.Add(addNewRowButton);
+            buttonPanel.Height = 50;
+            buttonPanel.Dock = DockStyle.Bottom;
+            this.Controls.Add(this.buttonPanel);
+        }
+
+        private void addNewRowButton_Click(object sender, EventArgs e)
         {
             FrmAddInvoice frmAddInvoice = new FrmAddInvoice(this, service);
             frmAddInvoice.ShowDialog();
-        
-        }  
+        }
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (!dataGridView1.Columns.Contains("Edit"))
+            {
+                var btnEdit = new DataGridViewButtonColumn
+                {
+                    Name = "Edit",
+                    Text = "Edit",
+                    UseColumnTextForButtonValue = true
+                };
+
+                dataGridView1.Columns.Add(btnEdit);
+            }
+            dataGridView1.Columns["Edit"].HeaderText = "";
+            if (dataGridView1.Columns.Count > 2)
+            {
+                dataGridView1.Columns["Edit"].DisplayIndex = 8;
+            }
+            if (!dataGridView1.Columns.Contains("Delete"))
+            {
+                var btnDelete = new DataGridViewButtonColumn
+                {
+                    Name = "Delete",
+                    Text = "Delete",
+                    UseColumnTextForButtonValue = true,
+                };
+                dataGridView1.Columns.Add(btnDelete);
+            }
+            dataGridView1.Columns["Delete"].HeaderText = "";
+            if (dataGridView1.Columns.Count > 3)
+            {
+                dataGridView1.Columns["Delete"].DisplayIndex = 9;
+            }
+            if (dataGridView1.Columns.Contains("Id"))
+            {
+                dataGridView1.Columns["Id"].Visible = false;
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
+            {
+                dataGridView1.Rows.RemoveAt(e.RowIndex);
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
+            {
+                var selectedItem = (Invoice)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                FrmAddInvoice frmAddInvoice = new FrmAddInvoice(this, service, selectedItem);
+                frmAddInvoice.ShowDialog();
+                PopulateDataGridView();
+            }
+        }
     }
 }

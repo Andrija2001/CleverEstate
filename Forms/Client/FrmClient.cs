@@ -1,7 +1,10 @@
-﻿using CleverEstate.Models;
+﻿using CleverEstate.Forms.Buildings;
+using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -9,109 +12,153 @@ namespace CleverEstate.Forms.Clients
 {
     public partial class FrmClient : Form
     {
+        public BindingSource bindingSource1 = new BindingSource();
         private ClientService service;
-        private List<Client> _dataSource;
-        public List<Client> DataSource
-        {
-            get => _dataSource;
-            set
-            {
-                _dataSource = value;
-                DataBind();
-            }
-        }
-        private void DataBind()
-        {
-            for (int i = tableLayoutPanel1.RowCount - 1; i > 0; i--)
-            {
-                for (int j = 0; j < tableLayoutPanel1.ColumnCount; j++)
-                {
-                    var control = tableLayoutPanel1.GetControlFromPosition(j, i);
-                    if (control != null)
-                        tableLayoutPanel1.Controls.Remove(control);
-                }
-            }
-            while (tableLayoutPanel1.RowStyles.Count > 1)
-            {
-                tableLayoutPanel1.RowStyles.RemoveAt(1);
-            }
-            tableLayoutPanel1.RowCount = 1;
-            if (_dataSource == null)
-                return;
-            var exsistingClients = new HashSet<string>();
-            foreach (var client in _dataSource)
-            {
-                string Key = client.Name + "-" + client.Surname;
-                if (!exsistingClients.Contains(Key))
-                {
-                    AddRowToPanel(tableLayoutPanel1, client);
-                    exsistingClients.Add(Key);
-                }
-            }
-        }
+        private Button addNewRowButton = new Button();
+        private Panel buttonPanel = new Panel();
+        Font font = new Font("Arial", 12);
         public FrmClient()
         {
             InitializeComponent();
-            service = new ClientService();
-            LoadClients();
+            InitializeDataGridView();
         }
-        public void LoadClients()
+        private void InitializeDataGridView()
         {
-            DataSource = service.GetAllClients();
-        }
-        private void AddRowToPanel(TableLayoutPanel panel, Client client)
-        {
-            int rowIndex = panel.RowCount++;
-            panel.RowStyles.Add(new RowStyle(SizeType.Absolute, 30));
-            Label lblName = new Label();
-            lblName.DataBindings.Add("Text", client, "Name");
-            panel.Controls.Add(lblName, 0, rowIndex);
-            Label lblSurname = new Label();
-            lblSurname.DataBindings.Add("Text", client, "Surname");
-            panel.Controls.Add(lblSurname, 1, rowIndex);
-            Label lblAddress = new Label();
-            lblAddress.DataBindings.Add("Text", client, "Address");
-            panel.Controls.Add(lblAddress, 2, rowIndex);
-            Label lblCity = new Label();
-            lblCity.DataBindings.Add("Text", client, "City");
-            panel.Controls.Add(lblCity, 3, rowIndex);
-            Label lblPIB = new Label();
-            lblPIB.DataBindings.Add("Text", client, "PIB");
-            panel.Controls.Add(lblPIB, 4, rowIndex);
-            Label lblBankAccount = new Label();
-            lblBankAccount.DataBindings.Add("Text", client, "BankAccount");
-            panel.Controls.Add(lblBankAccount, 5, rowIndex);
-            Button btnDelete = new Button() { Text = "Delete" };
-            btnDelete.Click += (s, e) => {
-                DeleteClient(client.Id);
-            };
-            panel.Controls.Add(btnDelete, 6, rowIndex);
-            Button btnEdit = new Button() { Text = "Edit" };
-            btnEdit.Click += (s, e) => {
-                EditRow(client.Id);
-            };
-            panel.Controls.Add(btnEdit, 7, rowIndex);
-        }
-        private void DeleteClient(Guid id)
-        {
-            tableLayoutPanel1.SuspendLayout();
-            service.Delete(id);
-            LoadClients();
-            tableLayoutPanel1.ResumeLayout();
-        }
-        private void EditRow(Guid ClientId)
-        {
-            var building = service.GetAllClients().FirstOrDefault(x => x.Id == ClientId);
-            if (building != null)
+            try
             {
-                FrmAddClient frmedit = new FrmAddClient(this, service, building);
-                frmedit.ShowDialog();
+                dataGridView1.Dock = DockStyle.Fill;
+                dataGridView1.AutoGenerateColumns = true;
+                dataGridView1.DataSource = bindingSource1;
+                dataGridView1.AutoSizeRowsMode =
+                     DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+                dataGridView1.BorderStyle = BorderStyle.Fixed3D;
+
+            }
+            catch (SqlException)
+            {
+                MessageBox.Show("To run this sample replace connection.ConnectionString" +
+                    " with a valid connection string to a Northwind" +
+                    " database accessible to your system.", "ERROR",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                System.Threading.Thread.CurrentThread.Abort();
             }
         }
-        private void button1_Click(object sender, EventArgs e)
+
+        private void FrmClient_Load(object sender, EventArgs e)
         {
-            FrmAddClient frmAddClient= new FrmAddClient(this,service);
+            service = new ClientService();
+            SetupLayout();
+            SetupDataGridView();
+            PopulateDataGridView();
+        }
+
+        public void PopulateDataGridView()
+        {
+            var listaklijenata = service.GetAllClients();
+            bindingSource1.Clear();
+            foreach (var klijent in listaklijenata)
+            {
+                bindingSource1.Add(klijent);
+            }
+        }
+
+        private void SetupDataGridView()
+        {
+            this.Controls.Add(dataGridView1);
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font =
+                new Font(dataGridView1.Font, FontStyle.Bold);
+            dataGridView1.Location = new Point(8, 8);
+            dataGridView1.Size = new Size(500, 250);
+            dataGridView1.AutoSizeRowsMode =
+                DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dataGridView1.ColumnHeadersBorderStyle =
+                DataGridViewHeaderBorderStyle.Single;
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
+            dataGridView1.GridColor = Color.Black;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.SelectionMode =
+            DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.MultiSelect = false;
+            dataGridView1.Dock = DockStyle.Fill;
+        }
+
+        private void SetupLayout()
+        {
+            this.Size = new Size(600, 500);
+            addNewRowButton.Text = "Add Row";
+            addNewRowButton.Font = font;
+            addNewRowButton.Location = new Point(10, 10);
+            addNewRowButton.Click += new EventHandler(addNewRowButton_Click);
+            buttonPanel.Controls.Add(addNewRowButton);
+            buttonPanel.Height = 50;
+            buttonPanel.Dock = DockStyle.Bottom;
+            this.Controls.Add(this.buttonPanel);
+        }
+
+        private void addNewRowButton_Click(object sender, EventArgs e)
+        {
+            FrmAddClient frmAddClient = new FrmAddClient(this, service);
             frmAddClient.ShowDialog();
+        }
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+
+            if (!dataGridView1.Columns.Contains("Edit"))
+            {
+                var btnEdit = new DataGridViewButtonColumn
+                {
+                    Name = "Edit",
+                    Text = "Edit",
+                    UseColumnTextForButtonValue = true
+                };
+
+                dataGridView1.Columns.Add(btnEdit);
+            }
+            dataGridView1.Columns["Edit"].HeaderText = "";
+            if (dataGridView1.Columns.Count > 2)
+            {
+                dataGridView1.Columns["Edit"].DisplayIndex = 8;
+            }
+            if (!dataGridView1.Columns.Contains("Delete"))
+            {
+                var btnDelete = new DataGridViewButtonColumn
+                {
+                    Name = "Delete",
+                    Text = "Delete",
+                    UseColumnTextForButtonValue = true,
+                };
+                dataGridView1.Columns.Add(btnDelete);
+            }
+            dataGridView1.Columns["Delete"].HeaderText = "";
+            if (dataGridView1.Columns.Count > 3)
+            {
+                dataGridView1.Columns["Delete"].DisplayIndex = 9;
+            }
+            if (dataGridView1.Columns.Contains("Id") && dataGridView1.Columns.Contains("InvoiceId"))
+            {
+                dataGridView1.Columns["InvoiceId"].Visible = false;
+                dataGridView1.Columns["Id"].Visible = false;
+ 
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                return;
+
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
+            {
+                dataGridView1.Rows.RemoveAt(e.RowIndex);
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
+            {
+                var selectedItem = (Client)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                FrmAddClient frmAddClient  = new FrmAddClient(this, service, selectedItem);
+                frmAddClient.ShowDialog();
+                PopulateDataGridView();
+            }
         }
     }
 }

@@ -1,12 +1,331 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\andri\\source\\repos\\CleverEstate\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\itemcatalog\\frmadditemcatalog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\itemcatalog\\frmadditemcatalog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\invoiceitem\\frmaddinvoiceitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\invoiceitem\\frmaddinvoiceitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\invoice\\frmaddinvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\invoice\\frmaddinvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\client\\frmaddclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\client\\frmaddclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\building\\frmaddbuildings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\building\\frmaddbuildings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\building\\frmbuildings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\building\\frmbuildings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\apartment\\frmaddapartment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\apartment\\frmaddapartment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\apartment\\frmapartment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\apartment\\frmapartment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\client\\frmclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\client\\frmclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\client\\frmclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\client\\frmclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\invoice\\frminvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\invoice\\frminvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\invoiceitem\\frminvoiceitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\invoiceitem\\frminvoiceitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\itemcatalog\\frmitemcatalog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\itemcatalog\\frmitemcatalog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\itemcatalog\\frmitemcatalog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\itemcatalog\\frmitemcatalog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\invoiceitem\\frminvoiceitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\invoiceitem\\frminvoiceitem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\invoice\\frminvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\invoice\\frminvoice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\building\\frmbuildings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\building\\frmbuildings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\apartment\\frmapartment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\apartment\\frmapartment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|c:\\users\\andri\\source\\repos\\cleverestate\\forms\\invoiceitem\\frmaddinvoiceitem.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AFC8A326-8881-486C-8A10-1D118FFDAFD3}|CleverEstate.csproj|solutionrelative:forms\\invoiceitem\\frmaddinvoiceitem.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 230,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FrmAddBuildings.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Building\\FrmAddBuildings.cs",
+              "RelativeDocumentMoniker": "Forms\\Building\\FrmAddBuildings.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Building\\FrmAddBuildings.cs [Design]",
+              "RelativeToolTip": "Forms\\Building\\FrmAddBuildings.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:29:13.954Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FrmAddClient.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Client\\FrmAddClient.cs",
+              "RelativeDocumentMoniker": "Forms\\Client\\FrmAddClient.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Client\\FrmAddClient.cs [Design]",
+              "RelativeToolTip": "Forms\\Client\\FrmAddClient.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:24:11.206Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FrmAddItemCatalog.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\ItemCatalog\\FrmAddItemCatalog.cs",
+              "RelativeDocumentMoniker": "Forms\\ItemCatalog\\FrmAddItemCatalog.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\ItemCatalog\\FrmAddItemCatalog.cs [Design]",
+              "RelativeToolTip": "Forms\\ItemCatalog\\FrmAddItemCatalog.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:28:57.634Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FrmBuildings.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Building\\FrmBuildings.cs",
+              "RelativeDocumentMoniker": "Forms\\Building\\FrmBuildings.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Building\\FrmBuildings.cs [Design]",
+              "RelativeToolTip": "Forms\\Building\\FrmBuildings.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:29:45.206Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "FrmAddInvoice.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Invoice\\FrmAddInvoice.cs",
+              "RelativeDocumentMoniker": "Forms\\Invoice\\FrmAddInvoice.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Invoice\\FrmAddInvoice.cs [Design]",
+              "RelativeToolTip": "Forms\\Invoice\\FrmAddInvoice.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:29:00.5Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FrmAddInvoiceItem.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\InvoiceItem\\FrmAddInvoiceItem.cs",
+              "RelativeDocumentMoniker": "Forms\\InvoiceItem\\FrmAddInvoiceItem.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\InvoiceItem\\FrmAddInvoiceItem.cs [Design]",
+              "RelativeToolTip": "Forms\\InvoiceItem\\FrmAddInvoiceItem.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:24:02.958Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "FrmAddApartment.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Apartment\\FrmAddApartment.cs",
+              "RelativeDocumentMoniker": "Forms\\Apartment\\FrmAddApartment.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Apartment\\FrmAddApartment.cs [Design]",
+              "RelativeToolTip": "Forms\\Apartment\\FrmAddApartment.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:29:17.72Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FrmApartment.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Apartment\\FrmApartment.cs",
+              "RelativeDocumentMoniker": "Forms\\Apartment\\FrmApartment.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Apartment\\FrmApartment.cs [Design]",
+              "RelativeToolTip": "Forms\\Apartment\\FrmApartment.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:33:17.537Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FrmClient.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Client\\FrmClient.cs",
+              "RelativeDocumentMoniker": "Forms\\Client\\FrmClient.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Client\\FrmClient.cs [Design]",
+              "RelativeToolTip": "Forms\\Client\\FrmClient.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:55:44.199Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "FrmClient.cs",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Client\\FrmClient.cs",
+              "RelativeDocumentMoniker": "Forms\\Client\\FrmClient.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Client\\FrmClient.cs",
+              "RelativeToolTip": "Forms\\Client\\FrmClient.cs",
+              "ViewState": "AQIAAEkAAAAAAAAAAAAcwFkAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:55:45.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "FrmInvoice.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Invoice\\FrmInvoice.cs",
+              "RelativeDocumentMoniker": "Forms\\Invoice\\FrmInvoice.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Invoice\\FrmInvoice.cs [Design]",
+              "RelativeToolTip": "Forms\\Invoice\\FrmInvoice.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:33:45.811Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "FrmInvoiceItem.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\InvoiceItem\\FrmInvoiceItem.cs",
+              "RelativeDocumentMoniker": "Forms\\InvoiceItem\\FrmInvoiceItem.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\InvoiceItem\\FrmInvoiceItem.cs [Design]",
+              "RelativeToolTip": "Forms\\InvoiceItem\\FrmInvoiceItem.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:35:50.729Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "FrmItemCatalog.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\ItemCatalog\\FrmItemCatalog.cs",
+              "RelativeDocumentMoniker": "Forms\\ItemCatalog\\FrmItemCatalog.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\ItemCatalog\\FrmItemCatalog.cs [Design]",
+              "RelativeToolTip": "Forms\\ItemCatalog\\FrmItemCatalog.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:56:04.262Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FrmItemCatalog.cs",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\ItemCatalog\\FrmItemCatalog.cs",
+              "RelativeDocumentMoniker": "Forms\\ItemCatalog\\FrmItemCatalog.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\ItemCatalog\\FrmItemCatalog.cs",
+              "RelativeToolTip": "Forms\\ItemCatalog\\FrmItemCatalog.cs",
+              "ViewState": "AQIAAE8AAAAAAAAAAAAcwGAAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:56:05.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "FrmInvoiceItem.cs",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\InvoiceItem\\FrmInvoiceItem.cs",
+              "RelativeDocumentMoniker": "Forms\\InvoiceItem\\FrmInvoiceItem.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\InvoiceItem\\FrmInvoiceItem.cs",
+              "RelativeToolTip": "Forms\\InvoiceItem\\FrmInvoiceItem.cs",
+              "ViewState": "AQIAACoAAAAAAAAAAAAowDsAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:55:58.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "FrmInvoice.cs",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Invoice\\FrmInvoice.cs",
+              "RelativeDocumentMoniker": "Forms\\Invoice\\FrmInvoice.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Invoice\\FrmInvoice.cs",
+              "RelativeToolTip": "Forms\\Invoice\\FrmInvoice.cs",
+              "ViewState": "AQIAAEwAAAAAAAAAAAAcwF0AAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:39:12.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "FrmBuildings.cs",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Building\\FrmBuildings.cs",
+              "RelativeDocumentMoniker": "Forms\\Building\\FrmBuildings.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Building\\FrmBuildings.cs",
+              "RelativeToolTip": "Forms\\Building\\FrmBuildings.cs",
+              "ViewState": "AQIAAEMAAAAAAAAAAAAcwFUAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:46:54.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "FrmApartment.cs",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Apartment\\FrmApartment.cs",
+              "RelativeDocumentMoniker": "Forms\\Apartment\\FrmApartment.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\Apartment\\FrmApartment.cs",
+              "RelativeToolTip": "Forms\\Apartment\\FrmApartment.cs",
+              "ViewState": "AQIAAEMAAAAAAAAAAAAcwFMAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:54:25.279Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "FrmAddInvoiceItem.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\InvoiceItem\\FrmAddInvoiceItem.Designer.cs",
+              "RelativeDocumentMoniker": "Forms\\InvoiceItem\\FrmAddInvoiceItem.Designer.cs",
+              "ToolTip": "C:\\Users\\andri\\source\\repos\\CleverEstate\\Forms\\InvoiceItem\\FrmAddInvoiceItem.Designer.cs",
+              "RelativeToolTip": "Forms\\InvoiceItem\\FrmAddInvoiceItem.Designer.cs",
+              "ViewState": "AQIAAD4AAAAAAAAAAAAowE0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-23T18:27:23.21Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

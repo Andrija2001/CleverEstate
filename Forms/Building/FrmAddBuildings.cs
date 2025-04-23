@@ -1,8 +1,10 @@
-﻿using CleverEstate.Models;
+﻿using CleverEstate.Forms.Apartments;
+using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using static System.Windows.Forms.MonthCalendar;
 
 namespace CleverEstate.Forms.Buildings
 {
@@ -22,7 +24,7 @@ namespace CleverEstate.Forms.Buildings
             this.currentBuilding = buildingToEdit;
             this.isEditMode = true;
             this.Text = "FrmEditBuilding";
-            button1.Text = "Edit Building";
+            button1.Text = "OK";
             txtAddress.Text = buildingToEdit.Address;
         }
         public FrmAddBuildings(FrmBuildings frmBuildings, BuildingService service)
@@ -33,35 +35,39 @@ namespace CleverEstate.Forms.Buildings
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            string address = txtAddress.Text;
-            if (isEditMode && currentBuilding != null)
+            if (!isEditMode)
             {
-                currentBuilding.Address = address;
-                service.Update(currentBuilding);
+                Building building = new Building();
+                if (txtAddress.Text == "")
+                {
+                    return;
+                }
+
+                string address = txtAddress.Text;
+                building.Id = Guid.NewGuid();
+                building.Address = address;
+                service.Create(building);
+                FrmBuildings.bindingSource1.Add(building);
+                FrmBuildings.PopulateDataGridView();
             }
             else
             {
-                Building newBuilding = new Building
-                {
-                    Id = Guid.NewGuid(),
-                    Address = address
-                };
-                service.Create(newBuilding);
+                currentBuilding.Address = txtAddress.Text;
+                service.Update(currentBuilding);
+                
             }
-            this.Hide();
-            FrmBuildings.LoadBuildings(); 
+            this.Close();
         }
-
         private void txtAddress_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
+
             if (e.KeyChar == (char)Keys.Back)
             {
-                return; 
+                return;
             }
             if (!Char.IsLetter(e.KeyChar) && !Char.IsWhiteSpace(e.KeyChar))
             {
-                e.Handled = true; 
+                e.Handled = true;
             }
         }
     }

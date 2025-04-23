@@ -1,4 +1,5 @@
-﻿using CleverEstate.Models;
+﻿using CleverEstate.Forms.Clients;
+using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
 using System.Windows.Forms;
@@ -16,7 +17,7 @@ namespace CleverEstate.Forms.CatalogItem
             this.currentCatalogItem = CatalogItemToEdit;
             this.isEditMode = true;
             this.Text = "FrmEditClients";
-            button1.Text = "Edit Client";
+            button1.Text =  "OK";
             txtName.Text = CatalogItemToEdit.Name;
             txtPricePerUnit.Text = CatalogItemToEdit.PricePerUnit.ToString();
             txtUnit.Text = CatalogItemToEdit.Unit.ToString();
@@ -29,29 +30,32 @@ namespace CleverEstate.Forms.CatalogItem
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            string Name = txtName.Text;
-            decimal PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
-            int Unit = int.Parse(txtUnit.Text);
-            if (isEditMode && currentCatalogItem != null)
+            if (!isEditMode)
             {
-                currentCatalogItem.Name = Name;
-                currentCatalogItem.PricePerUnit = PricePerUnit;
-                currentCatalogItem.Unit = Unit;
-                service.Update(currentCatalogItem);
+                ItemCatalog itemCatalog = new ItemCatalog();
+                if (txtUnit.Text == "" || txtName.Text == "" || txtPricePerUnit.Text == "")
+                {
+                    return;
+                }
+                string Name = txtName.Text;
+                int Unit = int.Parse(txtUnit.Text);
+                decimal PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
+                itemCatalog.Id = Guid.NewGuid();
+                itemCatalog.Name = Name;
+                itemCatalog.Unit = Unit;
+                itemCatalog.PricePerUnit = PricePerUnit;
+                service.Create(itemCatalog);
+                FrmItemCatalog.bindingSource1.Add(itemCatalog);
+                FrmItemCatalog.PopulateDataGridView();
             }
             else
             {
-                ItemCatalog newCatalogItem = new ItemCatalog
-                {
-                    Id = Guid.NewGuid(),
-                    Name = Name,
-                    PricePerUnit = PricePerUnit,
-                    Unit = Unit
-                };
-                service.Create(newCatalogItem);
+                currentCatalogItem.Name = txtName.Text;
+                currentCatalogItem.Unit = int.Parse(txtUnit.Text);
+                currentCatalogItem.PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
+                service.Update(currentCatalogItem);
             }
-            this.Hide();
-            FrmItemCatalog.LoadItemCatalog();
+            this.Close();
         }
         private void txtUnit_KeyPress(object sender, KeyPressEventArgs e)
         {

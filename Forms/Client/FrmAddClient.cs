@@ -1,4 +1,6 @@
-﻿using CleverEstate.Models;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using CleverEstate.Forms.Buildings;
+using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
 using System.Windows.Forms;
@@ -17,7 +19,7 @@ namespace CleverEstate.Forms.Clients
             this.currentClient = ClientToEdit;
             this.isEditMode = true;
             this.Text = "FrmEditClients";
-            button1.Text = "Edit Client";
+            button1.Text = "OK";
             txtName.Text = ClientToEdit.Name;
             txtSurname.Text = ClientToEdit.Surname;
             txtAddress.Text = ClientToEdit.Address;
@@ -33,38 +35,43 @@ namespace CleverEstate.Forms.Clients
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            string Name = txtName.Text;
-            string Surname = txtSurname.Text;
-            string Address = txtAddress.Text;   
-            string City= txtCity.Text;
-            int PIB = int.Parse(txtPIB.Text);
-            string BankAccount = txtBankAccount.Text;
-            if (isEditMode && currentClient != null)
+            if (!isEditMode)
             {
-                currentClient.Name = Name;
-                currentClient.Surname = Surname;
-                currentClient.Address = Address;
-                currentClient.City= City;
-                currentClient.PIB = PIB;
-                currentClient.BankAccount = BankAccount;
-                service.Update(currentClient);
+                Client client = new Client();
+                if (txtAddress.Text == "")
+                {
+                    return;
+                }
+                string Name = txtName.Text;
+                string Surname = txtSurname.Text;
+                string Address = txtAddress.Text;
+                string City = txtCity.Text;
+                int PIB = int.Parse(txtPIB.Text);
+                string BankAccount = txtBankAccount.Text;
+                
+                client.Id = Guid.NewGuid();
+                client.InvoiceId = Guid.NewGuid();
+                client.Name = Name;
+                client.Surname = Surname;
+                client.Address = Address;   
+                client.City = City;
+                client.BankAccount = BankAccount;
+                client.PIB = PIB;
+                service.Create(client);
+                FrmClient.bindingSource1.Add(client);
+                FrmClient.PopulateDataGridView();
             }
             else
             {
-                Client newClient = new Client
-                {
-                    Id = Guid.NewGuid(),
-                    Name = Name,
-                    Surname = Surname,
-                    Address = Address,
-                    City = City,
-                    PIB = PIB,
-                    BankAccount = BankAccount
-                };
-                service.Create(newClient);
+                currentClient.Name = txtName.Text;
+                currentClient.Surname = txtSurname.Text;
+                currentClient.Address = txtAddress.Text;
+                currentClient.City = txtCity.Text;
+                currentClient.BankAccount = txtBankAccount.Text;
+                currentClient.PIB = int.Parse(txtPIB.Text);
+                service.Update(currentClient);
             }
-            this.Hide();
-            FrmClient.LoadClients();
+            this.Close();
         }
         private void txtPIB_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -89,5 +96,7 @@ namespace CleverEstate.Forms.Clients
                 e.Handled = true;
             }
         }
+
+       
     }
 }

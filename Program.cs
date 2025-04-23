@@ -1,4 +1,5 @@
-﻿using CleverEstate.Forms.Apartments;
+﻿using CleverEstate.Forms;
+using CleverEstate.Forms.Apartments;
 using CleverEstate.Forms.Buildings;
 using CleverEstate.Forms.CatalogItem;
 using CleverEstate.Forms.Clients;

@@ -1,6 +1,8 @@
 ﻿using CleverEstate.Forms.Apartments;
 using CleverEstate.Forms.Buildings;
 using CleverEstate.Forms.CatalogItem;
+using CleverEstate.Forms.Clients;
+using CleverEstate.Forms.InvoiceItems;
 using CleverEstate.Forms.Invoices;
 using System;
 using System.Collections.Generic;
@@ -43,6 +45,12 @@ namespace CleverEstate
         {
             FrmItemCatalog frmItemCatalog = new FrmItemCatalog();
             frmItemCatalog.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FrmInvoiceItem frmInvoiceItem = new FrmInvoiceItem();
+            frmInvoiceItem.ShowDialog();
         }
     }
 }

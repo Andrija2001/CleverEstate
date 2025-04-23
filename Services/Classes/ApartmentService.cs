@@ -1,19 +1,16 @@
-﻿using CleverState.Services.Interface;
-using CleverEstate.Models;
-using System.Collections.Generic;
+﻿using CleverEstate.Models;
+using CleverState.Services.Interface;
 using System;
-
+using System.Collections.Generic;
 namespace CleverState.Services.Classes
 {
     public class ApartmentService : IApartmentService
     {
-        private List<Apartment> apartments = new List<Apartment>();
-
+        public List<Apartment> apartments = new List<Apartment>();
         public void Create(Apartment apartment)
         {
             apartments.Add(apartment);
         }
-
         public void Delete(Guid Id)
         {
             var apartmentToRemove = apartments.Find(a => a.Id == Id);
@@ -22,7 +19,6 @@ namespace CleverState.Services.Classes
                 apartments.Remove(apartmentToRemove);
             }
         }
-
         public Apartment GetApartment(Guid Id)
         {
             return apartments.Find(a => a.Id == Id);
@@ -42,6 +38,5 @@ namespace CleverState.Services.Classes
         {
             return apartments;
         }
-
     }
 }
