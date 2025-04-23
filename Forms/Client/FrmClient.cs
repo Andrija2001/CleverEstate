@@ -55,7 +55,6 @@ namespace CleverEstate.Forms.Clients
 
         public void PopulateDataGridView()
         {
-
             var clientList = service.GetAllClients();
             bindingSource1.Clear();
 
@@ -71,10 +70,7 @@ namespace CleverEstate.Forms.Clients
                     Name = client.Name,
                     PIB = client.PIB,
                     Surname = client.Surname,
-
                 };
-
-
                 bindingSource1.Add(client1);
             }
         }
@@ -156,7 +152,6 @@ namespace CleverEstate.Forms.Clients
             {
                 dataGridView1.Columns["InvoiceId"].Visible = false;
                 dataGridView1.Columns["Id"].Visible = false;
-
             }
         }
 
@@ -187,7 +182,6 @@ namespace CleverEstate.Forms.Clients
                         Id = selectedClient.Id,
                         InvoiceId = selectedClient.InvoiceId,
                         Name = selectedClient.Name,
-
                     };
                     bindingSource1[index] = updatedClient;
                     bindingSource1.ResetBindings(false);
