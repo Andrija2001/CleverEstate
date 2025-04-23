@@ -1,4 +1,5 @@
-﻿using CleverEstate.Forms.Apartments;
+using CleverEstate.Forms.Apartments;
+using CleverEstate.Forms.Invoices;
 using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
@@ -50,11 +51,19 @@ namespace CleverEstate.Forms.Buildings
         }
         public void PopulateDataGridView()
         {
-            var listaApartmana = service.GetAllBuildings();
+            var buildinglist = service.GetAllBuildings();
             bindingSource1.Clear();
-            foreach (var apartment in listaApartmana)
+            foreach (var building in buildinglist)
             {
-                bindingSource1.Add(apartment);
+                var buildingcopy = new Building
+                {
+                    Id = building.Id,
+                    Address = building.Address,
+
+
+
+                };
+                bindingSource1.Add(buildingcopy);
             }
         }
         private void SetupDataGridView()
@@ -145,10 +154,21 @@ namespace CleverEstate.Forms.Buildings
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
             {
-                var selectedItem = (Building)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                FrmAddBuildings frmAddBuildings = new FrmAddBuildings(this, service, selectedItem);
-                frmAddBuildings.ShowDialog();
-                PopulateDataGridView();
+                var selectedBuilding = (Building)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                FrmAddBuildings frm3 = new FrmAddBuildings(this, service, selectedBuilding);
+                frm3.ShowDialog();
+                int index = bindingSource1.IndexOf(selectedBuilding);
+                if (index != -1)
+                {
+                    var updatedBuilding = new Building
+                    {
+                        Address = selectedBuilding.Address,
+                         Id = selectedBuilding.Id
+
+                    };
+                    bindingSource1[index] = updatedBuilding;
+                    bindingSource1.ResetBindings(false);
+                }
             }
         }
     }
