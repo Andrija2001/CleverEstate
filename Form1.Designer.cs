@@ -34,7 +34,6 @@
             this.ApartmantsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.InvoiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ItemCatalogToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,47 +61,36 @@
             // BuildingsToolStripMenuItem
             // 
             this.BuildingsToolStripMenuItem.Name = "BuildingsToolStripMenuItem";
-            this.BuildingsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.BuildingsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.BuildingsToolStripMenuItem.Text = "Buildings";
             this.BuildingsToolStripMenuItem.Click += new System.EventHandler(this.BuildingToolStripMenuItem_Click);
             // 
             // ApartmantsToolStripMenuItem
             // 
             this.ApartmantsToolStripMenuItem.Name = "ApartmantsToolStripMenuItem";
-            this.ApartmantsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ApartmantsToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.ApartmantsToolStripMenuItem.Text = "Apartmans";
             this.ApartmantsToolStripMenuItem.Click += new System.EventHandler(this.ApartmantsToolStripMenuItem_Click);
             // 
             // InvoiceToolStripMenuItem
             // 
             this.InvoiceToolStripMenuItem.Name = "InvoiceToolStripMenuItem";
-            this.InvoiceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.InvoiceToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.InvoiceToolStripMenuItem.Text = "Invoice";
             this.InvoiceToolStripMenuItem.Click += new System.EventHandler(this.InvoiceToolStripMenuItem_Click);
             // 
             // ItemCatalogToolStripMenuItem
             // 
             this.ItemCatalogToolStripMenuItem.Name = "ItemCatalogToolStripMenuItem";
-            this.ItemCatalogToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ItemCatalogToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.ItemCatalogToolStripMenuItem.Text = "Item Catalog";
             this.ItemCatalogToolStripMenuItem.Click += new System.EventHandler(this.ItemCatalogToolStripMenuItem_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(220, 136);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.menuStrip1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -121,7 +109,6 @@
         private System.Windows.Forms.ToolStripMenuItem ApartmantsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem InvoiceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ItemCatalogToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
     }
 }
 

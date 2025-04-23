@@ -18,7 +18,7 @@ namespace CleverEstate.Forms.InvoiceItems
             this.CurrentInvoiceItem = InvoiceItemToEdit;
             this.isEditMode = true;
             this.Text = "FrmEditInvoiceItem";
-            button1.Text = "Edit Invoice Item";
+            button1.Text = "OK";
             txtNumber.Text = InvoiceItemToEdit.Number;
             txtPricePerUnit.Text=InvoiceItemToEdit.PricePerUnit.ToString();
             txtQuantity.Text=InvoiceItemToEdit.Quantity.ToString();
