@@ -179,8 +179,6 @@ namespace CleverEstate.Forms.CatalogItem
                         Name = selectedCatalogItem.Name,
                         PricePerUnit = selectedCatalogItem.PricePerUnit,
                         Unit = selectedCatalogItem.Unit,
-
-
                     };
                     bindingSource1[index] = updatedItemCatalog;
                     bindingSource1.ResetBindings(false);

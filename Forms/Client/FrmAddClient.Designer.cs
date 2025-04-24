@@ -101,7 +101,7 @@
             this.txtCity.Location = new System.Drawing.Point(147, 184);
             this.txtCity.Name = "txtCity";
             this.txtCity.Size = new System.Drawing.Size(136, 20);
-            this.txtCity.TabIndex = 3;
+            this.txtCity.TabIndex = 4;
             this.txtCity.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
             // txtAddress
@@ -202,7 +202,7 @@
             this.txtPIB.Location = new System.Drawing.Point(147, 141);
             this.txtPIB.Name = "txtPIB";
             this.txtPIB.Size = new System.Drawing.Size(136, 20);
-            this.txtPIB.TabIndex = 4;
+            this.txtPIB.TabIndex = 3;
             this.txtPIB.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPIB_KeyPress);
             // 
             // button1

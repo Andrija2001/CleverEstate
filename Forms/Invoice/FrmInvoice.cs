@@ -58,21 +58,18 @@ namespace CleverEstate.Forms.Invoices
         {
             var InvoiceList = service.GetAllInvoices();
             bindingSource1.Clear();
-            foreach (var apartment in InvoiceList)
+            foreach (var invoice in InvoiceList)
             {
                 var invoicecopy = new Invoice
                 {
-                    Id = apartment.Id,
-                    Date = apartment.Date,
-                    Description = apartment.Description,
-                    InvoiceDate = apartment.InvoiceDate,
-                    InvoiceNumber = apartment.InvoiceNumber,
-                    Month = apartment.Month,
-                    PaymentDeadline = apartment.PaymentDeadline,
-                    Period = apartment.Period,
-                   
-                  
-
+                    Id = invoice.Id,
+                    Date = invoice.Date,
+                    Description = invoice.Description,
+                    InvoiceDate = invoice.InvoiceDate,
+                    InvoiceNumber = invoice.InvoiceNumber,
+                    Month = invoice.Month,
+                    PaymentDeadline = invoice.PaymentDeadline,
+                    Period = invoice.Period,
                 };
                 bindingSource1.Add(invoicecopy);
             }
@@ -98,7 +95,6 @@ namespace CleverEstate.Forms.Invoices
             DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.Dock = DockStyle.Fill;
-
         }
 
         private void SetupLayout()
@@ -158,7 +154,6 @@ namespace CleverEstate.Forms.Invoices
                 dataGridView1.Columns["Id"].Visible = false;
             }
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
@@ -185,7 +180,6 @@ namespace CleverEstate.Forms.Invoices
                         Id  = selectedInvoice.Id,
                          InvoiceDate = selectedInvoice.InvoiceDate,
                          InvoiceNumber = selectedInvoice.InvoiceNumber
-
                     };
                     bindingSource1[index] = updatedInvoice;
                     bindingSource1.ResetBindings(false);

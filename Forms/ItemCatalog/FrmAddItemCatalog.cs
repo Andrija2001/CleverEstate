@@ -54,9 +54,8 @@ namespace CleverEstate.Forms.CatalogItem
                 currentCatalogItem.Unit = int.Parse(txtUnit.Text);
                 currentCatalogItem.PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
                 service.Update(currentCatalogItem);
+                this.Close();
             }
-            this.Close();
-            
         }
         private void txtUnit_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -66,6 +65,19 @@ namespace CleverEstate.Forms.CatalogItem
                 e.Handled = true;
             }
             if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtName_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if (e.KeyChar == (char)Keys.Back)
+            {
+                return;
+            }
+            if (!Char.IsLetter(e.KeyChar) && !Char.IsWhiteSpace(e.KeyChar))
             {
                 e.Handled = true;
             }

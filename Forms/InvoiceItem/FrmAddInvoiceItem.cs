@@ -69,8 +69,9 @@ namespace CleverEstate.Forms.InvoiceItems
                 CurrentInvoiceItem.VAT = decimal.Parse(txtVAT.Text);
                 CurrentInvoiceItem.VATRate = decimal.Parse(txtVATRate.Text);
                 service.Update(CurrentInvoiceItem);
+                this.Close();
             }
-            this.Close();
+         
         }
         private void FrmAddInvoiceItem_KeyPress(object sender, KeyPressEventArgs e)
         {

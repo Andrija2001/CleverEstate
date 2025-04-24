@@ -67,6 +67,7 @@ namespace CleverEstate.Forms.Invoices
                 service.Create(invoice);
                 FrmInvoice.bindingSource1.Add(invoice);
                 FrmInvoice.PopulateDataGridView();
+                
             }
             else
             {
@@ -78,8 +79,8 @@ namespace CleverEstate.Forms.Invoices
                 currentInvoice.Date = today;
                 currentInvoice.Month =  dateTimePicker3.Value.ToString("MMMM");
                 service.Update(currentInvoice);
+                this.Close();
             }
-            this.Close();
         }
         private void txtInvoiceNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -89,6 +90,19 @@ namespace CleverEstate.Forms.Invoices
                 e.Handled = true;
             }
             if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtDescription_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            if (e.KeyChar == (char)Keys.Back)
+            {
+                return;
+            }
+            if (!Char.IsLetter(e.KeyChar) && !Char.IsWhiteSpace(e.KeyChar))
             {
                 e.Handled = true;
             }

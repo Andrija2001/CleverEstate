@@ -60,6 +60,7 @@ namespace CleverEstate.Forms.Clients
                 service.Create(client);
                 FrmClient.bindingSource1.Add(client);
                 FrmClient.PopulateDataGridView();
+                
             }
             else
             {
@@ -70,8 +71,9 @@ namespace CleverEstate.Forms.Clients
                 currentClient.BankAccount = txtBankAccount.Text;
                 currentClient.PIB = int.Parse(txtPIB.Text);
                 service.Update(currentClient);
+                this.Close();
             }
-            this.Close();
+           
         }
         private void txtPIB_KeyPress(object sender, KeyPressEventArgs e)
         {

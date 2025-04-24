@@ -109,6 +109,7 @@
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(118, 20);
             this.txtName.TabIndex = 3;
+            this.txtName.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtName_KeyPress);
             // 
             // txtPricePerUnit
             // 
