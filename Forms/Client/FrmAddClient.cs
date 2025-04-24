@@ -59,8 +59,7 @@ namespace CleverEstate.Forms.Clients
                 client.PIB = PIB;
                 service.Create(client);
                 FrmClient.bindingSource1.Add(client);
-                FrmClient.PopulateDataGridView();
-                
+                FrmClient.PopulateDataGridView();                
             }
             else
             {
@@ -73,7 +72,7 @@ namespace CleverEstate.Forms.Clients
                 service.Update(currentClient);
                 this.Close();
             }
-           
+    
         }
         private void txtPIB_KeyPress(object sender, KeyPressEventArgs e)
         {
