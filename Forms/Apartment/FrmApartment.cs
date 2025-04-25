@@ -51,7 +51,6 @@ namespace CleverEstate.Forms.Apartments
         {
             var listaApartmana = service.GetAllApartments();
             bindingSource1.Clear();
-
             foreach (var apartment in listaApartmana)
             {
                 var apartmentCopy = new Apartment
