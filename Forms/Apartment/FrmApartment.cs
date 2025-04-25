@@ -60,8 +60,6 @@ namespace CleverEstate.Forms.Apartments
                     Area = apartment.Area,
                     Number = apartment.Number
                 };
-
-                
                 bindingSource1.Add(apartmentCopy);
             }
         }
