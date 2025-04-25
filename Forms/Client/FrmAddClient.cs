@@ -38,7 +38,7 @@ namespace CleverEstate.Forms.Clients
             if (!isEditMode)
             {
                 Client client = new Client();
-                if (txtAddress.Text == "")
+                if (txtAddress.Text == "" || txtName.Text == "" || txtSurname.Text == "" || txtCity.Text == "" || txtPIB.Text == "" || txtBankAccount.Text == "")
                 {
                     return;
                 }
@@ -47,8 +47,7 @@ namespace CleverEstate.Forms.Clients
                 string Address = txtAddress.Text;
                 string City = txtCity.Text;
                 int PIB = int.Parse(txtPIB.Text);
-                string BankAccount = txtBankAccount.Text;
-                
+                string BankAccount = txtBankAccount.Text;  
                 client.Id = Guid.NewGuid();
                 client.InvoiceId = Guid.NewGuid();
                 client.Name = Name;
@@ -72,7 +71,7 @@ namespace CleverEstate.Forms.Clients
                 service.Update(currentClient);
                 this.Close();
             }
-    
+            this.Close();
         }
         private void txtPIB_KeyPress(object sender, KeyPressEventArgs e)
         {

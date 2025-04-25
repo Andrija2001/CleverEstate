@@ -1,4 +1,4 @@
-﻿using CleverEstate.Models;
+using CleverEstate.Models;
 using CleverState.Services.Classes;
 using System;
 using System.Collections.Generic;
@@ -51,7 +51,6 @@ namespace CleverEstate.Forms.Apartments
         {
             var listaApartmana = service.GetAllApartments();
             bindingSource1.Clear();
-
             foreach (var apartment in listaApartmana)
             {
                 var apartmentCopy = new Apartment
@@ -60,8 +59,6 @@ namespace CleverEstate.Forms.Apartments
                     Area = apartment.Area,
                     Number = apartment.Number
                 };
-
-                
                 bindingSource1.Add(apartmentCopy);
             }
         }

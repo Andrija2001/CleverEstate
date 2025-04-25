@@ -1,4 +1,4 @@
-﻿using CleverEstate.Forms.Apartments;
+using CleverEstate.Forms.Apartments;
 using CleverEstate.Forms.Invoices;
 using CleverEstate.Models;
 using CleverState.Services.Classes;
@@ -59,9 +59,6 @@ namespace CleverEstate.Forms.Buildings
                 {
                     Id = building.Id,
                     Address = building.Address,
-
-
-
                 };
                 bindingSource1.Add(buildingcopy);
             }
@@ -86,7 +83,6 @@ namespace CleverEstate.Forms.Buildings
             DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.Dock = DockStyle.Fill;
-
         }
         private void SetupLayout()
         {
@@ -143,7 +139,6 @@ namespace CleverEstate.Forms.Buildings
                 dataGridView1.Columns["Id"].Visible = false;
             }
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
@@ -164,7 +159,6 @@ namespace CleverEstate.Forms.Buildings
                     {
                         Address = selectedBuilding.Address,
                          Id = selectedBuilding.Id
-
                     };
                     bindingSource1[index] = updatedBuilding;
                     bindingSource1.ResetBindings(false);

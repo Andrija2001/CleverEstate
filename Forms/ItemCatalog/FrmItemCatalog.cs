@@ -1,4 +1,4 @@
-﻿using CleverEstate.Forms.Buildings;
+using CleverEstate.Forms.Buildings;
 using CleverEstate.Forms.Clients;
 using CleverEstate.Forms.InvoiceItems;
 using CleverEstate.Models;
@@ -64,16 +64,7 @@ namespace CleverEstate.Forms.CatalogItem
             bindingSource1.Clear();
             foreach (var catalog in CatalogItemList)
             {
-                var ItemCatalogCopy = new ItemCatalog
-                {
-                    Id = catalog.Id,
-                    Name = catalog.Name,
-                    PricePerUnit = catalog.PricePerUnit,
-                    Unit = catalog.Unit
-
-                };
-                bindingSource1.Add(ItemCatalogCopy);
-
+                bindingSource1.Add(catalog);
             }
         }
         private void SetupDataGridView()
@@ -116,7 +107,6 @@ namespace CleverEstate.Forms.CatalogItem
         {
             FrmAddItemCatalog frmAddItemCatalog = new FrmAddItemCatalog(this, service);
             frmAddItemCatalog.ShowDialog();
-
         }
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
@@ -128,7 +118,6 @@ namespace CleverEstate.Forms.CatalogItem
                     Text = "Edit",
                     UseColumnTextForButtonValue = true
                 };
-
                 dataGridView1.Columns.Add(btnEdit);
             }
             dataGridView1.Columns["Edit"].HeaderText = "";

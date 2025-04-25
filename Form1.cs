@@ -47,22 +47,6 @@ namespace CleverEstate
             frmItemCatalog.ShowDialog();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            FrmInvoiceItem frmInvoiceItem = new FrmInvoiceItem();
-            frmInvoiceItem.ShowDialog();
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-           FrmClient frmClient = new FrmClient();
-            frmClient.ShowDialog();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            FrmInvoiceItem frmInvoiceItem = new FrmInvoiceItem();
-            frmInvoiceItem.ShowDialog();
-        }
+     
     }
 }

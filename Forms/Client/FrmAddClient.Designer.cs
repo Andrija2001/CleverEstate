@@ -209,7 +209,7 @@
             // 
             this.button1.AutoSize = true;
             this.button1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(94, 289);
+            this.button1.Location = new System.Drawing.Point(97, 278);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(121, 41);
             this.button1.TabIndex = 6;
@@ -222,7 +222,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(311, 362);
+            this.ClientSize = new System.Drawing.Size(305, 332);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.button1);
             this.Name = "FrmAddClient";

@@ -4,7 +4,7 @@ using System;
 using System.Windows.Forms;
 namespace CleverEstate.Forms.Apartments
 {
-    public partial class FrmAddApartment : Form
+   public partial class FrmAddApartment : Form
     {
         FrmApartment frmApartment;
         ApartmentService service;
@@ -20,7 +20,6 @@ namespace CleverEstate.Forms.Apartments
             txtArea.Text = ApartmentToEdit.Area.ToString();
             txtNumber.Text = ApartmentToEdit.Number.ToString();
         }
-
         public FrmAddApartment(FrmApartment formApartment, ApartmentService service)
         {
             InitializeComponent();
@@ -32,29 +31,26 @@ namespace CleverEstate.Forms.Apartments
             if (!isEditMode)
             {
                 Apartment apartments = new Apartment();
-                if (txtArea.Text == "" || txtNumber.Text == "")
+                if (!int.TryParse(txtNumber.Text, out int number) || !decimal.TryParse(txtArea.Text, out decimal area))
                 {
                     return;
                 }
-                int number = int.Parse(txtNumber.Text);
-                decimal area = decimal.Parse(txtArea.Text);
+                 number = int.Parse(txtNumber.Text);
+                 area = decimal.Parse(txtArea.Text);
                 apartments.Id = Guid.NewGuid();
                 apartments.Area = area;
                 apartments.Number = number;
                 service.Create(apartments);
                 frmApartment.bindingSource1.Add(apartments);
                 frmApartment.PopulateDataGridView();
-             
             }
             else
             {
                 currentApartment.Area = decimal.Parse(txtArea.Text);
                 currentApartment.Number = int.Parse(txtNumber.Text);
                 service.Update(currentApartment);
-               
                 this.Close();
             }
-
         }
         private void txtNumber_KeyPress(object sender, KeyPressEventArgs e)
         {

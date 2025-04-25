@@ -42,7 +42,6 @@ namespace CleverEstate.Forms.Buildings
                 {
                     return;
                 }
-
                 string address = txtAddress.Text;
                 building.Id = Guid.NewGuid();
                 building.Address = address;
@@ -55,13 +54,10 @@ namespace CleverEstate.Forms.Buildings
                 currentBuilding.Address = txtAddress.Text;
                 service.Update(currentBuilding);
                 this.Close();
-               
             }
-            
         }
         private void txtAddress_KeyPress(object sender, KeyPressEventArgs e)
         {
-
             if (e.KeyChar == (char)Keys.Back)
             {
                 return;

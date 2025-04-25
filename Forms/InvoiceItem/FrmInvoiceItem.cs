@@ -1,4 +1,4 @@
-﻿using CleverEstate.Forms.Apartments;
+using CleverEstate.Forms.Apartments;
 using CleverEstate.Forms.Buildings;
 using CleverEstate.Forms.Clients;
 using CleverEstate.Models;
@@ -93,7 +93,6 @@ namespace CleverEstate.Forms.InvoiceItems
             dataGridView1.MultiSelect = false;
             dataGridView1.Dock = DockStyle.Fill;
         }
-
         public void PopulateDataGridView()
         {
             var listInvoiceItems = service.GetAllInvoiceItems();
@@ -118,7 +117,6 @@ namespace CleverEstate.Forms.InvoiceItems
                 bindingSource1.Add(invoiceItemCopy);
             }
         }
-
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             if (!dataGridView1.Columns.Contains("Edit"))
@@ -160,7 +158,6 @@ namespace CleverEstate.Forms.InvoiceItems
                 dataGridView1.Columns["InvoiceId"].Visible = false;
             }
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
 

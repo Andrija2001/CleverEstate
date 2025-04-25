@@ -71,7 +71,6 @@ namespace CleverEstate.Forms.InvoiceItems
                 service.Update(CurrentInvoiceItem);
                 this.Close();
             }
-         
         }
         private void FrmAddInvoiceItem_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -84,8 +83,6 @@ namespace CleverEstate.Forms.InvoiceItems
             {
                 e.Handled = true;
             }
-        }
-
-        
+        }      
     }
 }

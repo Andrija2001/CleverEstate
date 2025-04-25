@@ -1,4 +1,4 @@
-﻿using CleverEstate.Forms.Buildings;
+using CleverEstate.Forms.Buildings;
 using CleverEstate.Forms.Clients;
 using CleverEstate.Models;
 using CleverState.Services.Classes;
@@ -9,7 +9,6 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Windows.Forms;
-
 namespace CleverEstate.Forms.Invoices
 {
     public partial class FrmInvoice : Form

@@ -50,15 +50,17 @@ namespace CleverEstate.Forms.Invoices
                 Invoice invoice = new Invoice();
                 if (txtDescription.Text == "" || txtDescription.Text == "")
                 {
+                    MessageBox.Show("Molimo Vas popunite sva polja");
                     return;
                 }
                 int InvoiceNumber = int.Parse(txtInvoiceNumber.Text);
                 string Description = txtDescription.Text;
-                DateTime PaymentDeadline = dateTimePicker2.Value;
-                DateTime InvoiceDate = dateTimePicker3.Value;
+                DateTime PaymentDeadline =DateTime.Parse(dateTimePicker2.Value.ToShortDateString());
+                DateTime InvoiceDate = DateTime.Parse(dateTimePicker3.Value.ToShortDateString());
+                string Month = dateTimePicker3.Value.ToString("MMMM");
                 invoice.Id = Guid.NewGuid();
                 invoice.Date = today;
-                invoice.Month =dateTimePicker3.Value.ToString("MMMM");
+                invoice.Month = Month;
                 invoice.PaymentDeadline = PaymentDeadline;
                 invoice.Period = $"{new DateTime(today.Year, today.Month, 1):dd.MM.yyyy} - {new DateTime(today.Year, today.Month, 1).AddMonths(1).AddDays(-1):dd.MM.yyyy}";
                 invoice.InvoiceNumber = InvoiceNumber;
@@ -97,7 +99,6 @@ namespace CleverEstate.Forms.Invoices
 
         private void txtDescription_KeyPress(object sender, KeyPressEventArgs e)
         {
-
             if (e.KeyChar == (char)Keys.Back)
             {
                 return;

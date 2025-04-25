@@ -69,10 +69,8 @@ namespace CleverEstate.Forms.CatalogItem
                 e.Handled = true;
             }
         }
-
         private void txtName_KeyPress(object sender, KeyPressEventArgs e)
         {
-
             if (e.KeyChar == (char)Keys.Back)
             {
                 return;

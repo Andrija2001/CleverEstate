@@ -1,4 +1,4 @@
-﻿using CleverEstate.Forms.Apartments;
+using CleverEstate.Forms.Apartments;
 using CleverEstate.Forms.Buildings;
 using CleverEstate.Models;
 using CleverState.Services.Classes;
