@@ -1,9 +1,14 @@
 using CleverEstate.Forms.Apartments;
 using CleverEstate.Forms.Buildings;
 using CleverEstate.Models;
+using CleverEstate.Services.Classes;
+using CleverEstate.Services.Classes.Repository;
+using CleverEstate.Services.Interface.Repository;
 using CleverState.Services.Classes;
+using Npgsql;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
@@ -13,8 +18,11 @@ namespace CleverEstate.Forms.Clients
 {
     public partial class FrmClient : Form
     {
+
         public BindingSource bindingSource1 = new BindingSource();
         private ClientService service;
+        private Client selectedClient;
+        private ClientRepository repository;
         private Button addNewRowButton = new Button();
         private Panel buttonPanel = new Panel();
         Font font = new Font("Arial", 12);
@@ -22,63 +30,32 @@ namespace CleverEstate.Forms.Clients
         {
             InitializeComponent();
             InitializeDataGridView();
+            SetupLayout();
+            repository = new ClientRepository(new DataDbContext());
+            bindingSource1.DataSource = typeof(Client);
         }
         private void InitializeDataGridView()
         {
-            try
-            {
-                dataGridView1.Dock = DockStyle.Fill;
-                dataGridView1.AutoGenerateColumns = true;
-                dataGridView1.DataSource = bindingSource1;
-                dataGridView1.AutoSizeRowsMode =
-                     DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-                dataGridView1.BorderStyle = BorderStyle.Fixed3D;
-
-            }
-            catch (SqlException)
-            {
-                MessageBox.Show("To run this sample replace connection.ConnectionString" +
-                    " with a valid connection string to a Northwind" +
-                    " database accessible to your system.", "ERROR",
-                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                System.Threading.Thread.CurrentThread.Abort();
-            }
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.DataSource = bindingSource1;
+            dataGridView1.AutoSizeRowsMode =
+                 DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dataGridView1.BorderStyle = BorderStyle.Fixed3D;
         }
 
         private void FrmClient_Load(object sender, EventArgs e)
         {
-            service = new ClientService();
-            SetupLayout();
             SetupDataGridView();
-            PopulateDataGridView();
+            LoadData();
         }
 
-        public void PopulateDataGridView()
+        public void LoadData()
         {
-
-            var clientList = service.GetAllClients();
-            bindingSource1.Clear();
-
-            foreach (var client in clientList)
-            {
-                var client1 = new Client
-                {
-                    Id = client.Id,
-                    Address = client.Address,
-                    BankAccount = client.BankAccount,
-                    City = client.City,
-                    InvoiceId = client.InvoiceId,
-                    Name = client.Name,
-                    PIB = client.PIB,
-                    Surname = client.Surname,
-
-                };
-
-
-                bindingSource1.Add(client1);
-            }
+            var clientList = repository.GetAll();
+            bindingSource1.DataSource = clientList;
+            dataGridView1.DataSource = bindingSource1;
         }
-
         private void SetupDataGridView()
         {
             this.Controls.Add(dataGridView1);
@@ -115,8 +92,8 @@ namespace CleverEstate.Forms.Clients
 
         private void addNewRowButton_Click(object sender, EventArgs e)
         {
-            FrmAddClient frmAddClient = new FrmAddClient(this, service);
-            frmAddClient.ShowDialog();
+            //FrmAddClient frmAddClient = new FrmAddClient(this, service);
+            //  frmAddClient.ShowDialog();
         }
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
@@ -135,7 +112,7 @@ namespace CleverEstate.Forms.Clients
             dataGridView1.Columns["Edit"].HeaderText = "";
             if (dataGridView1.Columns.Count > 2)
             {
-                dataGridView1.Columns["Edit"].DisplayIndex = 8;
+                dataGridView1.Columns["Edit"].DisplayIndex = 7;
             }
             if (!dataGridView1.Columns.Contains("Delete"))
             {
@@ -150,13 +127,12 @@ namespace CleverEstate.Forms.Clients
             dataGridView1.Columns["Delete"].HeaderText = "";
             if (dataGridView1.Columns.Count > 3)
             {
-                dataGridView1.Columns["Delete"].DisplayIndex = 9;
+                dataGridView1.Columns["Delete"].DisplayIndex = 8;
             }
-            if (dataGridView1.Columns.Contains("Id") && dataGridView1.Columns.Contains("InvoiceId"))
+            if (dataGridView1.Columns.Contains("client_id"))
             {
-                dataGridView1.Columns["InvoiceId"].Visible = false;
-                dataGridView1.Columns["Id"].Visible = false;
-
+                dataGridView1.Columns["client_id"].Visible = false;
+                dataGridView1.Columns["apartment_id"].Visible = false;
             }
         }
 
@@ -167,30 +143,30 @@ namespace CleverEstate.Forms.Clients
 
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
             {
-                dataGridView1.Rows.RemoveAt(e.RowIndex);
+
+               
+                    var buildingToDelete = (Guid)dataGridView1.Rows[e.RowIndex].Cells["Id"].Value;
+
+                    repository.Delete(buildingToDelete); 
+                    BindingSource bindingSource = (BindingSource)dataGridView1.DataSource;
+                    bindingSource.RemoveAt(e.RowIndex);
+                    dataGridView1.Refresh();
+                
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
             {
-                var selectedClient = (Client)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                FrmAddClient frm3 = new FrmAddClient(this, service, selectedClient);
-                frm3.ShowDialog();
-                int index = bindingSource1.IndexOf(selectedClient);
-                if (index != -1)
-                {
-                    var updatedClient = new Client
-                    {
-                        Address = selectedClient.Address,
-                        Surname = selectedClient.Surname,
-                        PIB = selectedClient.PIB,
-                        BankAccount = selectedClient.BankAccount,
-                        City = selectedClient.City,
-                        Id = selectedClient.Id,
-                        InvoiceId = selectedClient.InvoiceId,
-                        Name = selectedClient.Name,
 
-                    };
-                    bindingSource1[index] = updatedClient;
-                    bindingSource1.ResetBindings(false);
+                if (e.RowIndex >= 0)
+                {
+                    var selectedRow = dataGridView1.Rows[e.RowIndex];
+
+                    selectedClient.Id = Guid.Parse(selectedRow.Cells["client_id"].Value.ToString());
+                    selectedClient.Name = selectedRow.Cells["Name"].Value.ToString();
+                    selectedClient.Surname = selectedRow.Cells["Surname"].Value.ToString();
+                    selectedClient.PIB = int.Parse(selectedRow.Cells["PIB"].Value.ToString());
+                    selectedClient.BankAccount = selectedRow.Cells["BankAccount"].Value.ToString();
+
+               
                 }
             }
         }

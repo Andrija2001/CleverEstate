@@ -3,7 +3,7 @@ using System;
 
 namespace CleverState.Services.Interface
 {
-    internal interface IBuildingService
+    public interface IBuildingService
     {
         void Create(Building obj);
         Building GetBuilding(Guid Id);

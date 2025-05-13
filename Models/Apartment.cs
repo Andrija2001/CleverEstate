@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Data.Entity;
 
 namespace CleverEstate.Models
 {
-    public class Apartment
+    public class Apartment 
     {
         public Guid Id { get; set; }
         public Guid BuildingId { get; set; }

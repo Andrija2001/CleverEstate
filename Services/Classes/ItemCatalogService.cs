@@ -2,48 +2,27 @@
 using CleverEstate.Models;
 using System.Collections.Generic;
 using System;
+using CleverEstate.Services.Interface.Repository;
 
 namespace CleverState.Services.Classes
 {
     public class ItemCatalogService : IItemCatalogService
     {
-        private List<ItemCatalog> ItemCatalogs = new List<ItemCatalog>();
+        private readonly IItemCatalogRepository _repository;
 
-        public void Create(ItemCatalog ItemCatalog)
+        public ItemCatalogService(IItemCatalogRepository repository)
         {
-            ItemCatalogs.Add(ItemCatalog);
+            _repository = repository;
         }
 
-        public void Delete(Guid Id)
-        {
-            var RemoveItem = ItemCatalogs.Find(a => a.Id == Id);
-            if (RemoveItem != null)
-            {
-                ItemCatalogs.Remove(RemoveItem);
-            }
-        }
+        public void Create(ItemCatalog itemCatalog) => _repository.Insert(itemCatalog);
 
-        public ItemCatalog GetItemCatalog(Guid id)
-        {
-            return ItemCatalogs.Find(a => a.Id == id);
-        }
+        public void Delete(Guid id) => _repository.Delete(id);
 
-        public void Update(ItemCatalog ItemCatalog)
-        {
-            var UpdateItemCatalog = ItemCatalogs.Find(a => a.Id == a.Id);
-            if (UpdateItemCatalog != null)
-            {
-                UpdateItemCatalog.Id = ItemCatalog.Id;
-                UpdateItemCatalog.Unit = ItemCatalog.Unit;
-                UpdateItemCatalog.PricePerUnit = ItemCatalog.PricePerUnit;
-                UpdateItemCatalog.Name = ItemCatalog.Name;
-            }
-        }
+        public ItemCatalog GetItemCatalog(Guid id) => _repository.GetById(id);
 
+        public void Update(ItemCatalog itemCatalog) => _repository.Update(itemCatalog);
 
-        public List<ItemCatalog> GetAllCatalogItems()
-        {
-            return ItemCatalogs;
-        }
+        public List<ItemCatalog> GetItemCatalogItems() => _repository.GetAll();
     }
 }

@@ -1,106 +1,121 @@
-using CleverEstate.Forms.Apartments;
-using CleverEstate.Forms.Invoices;
-using CleverEstate.Models;
-using CleverState.Services.Classes;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using CleverEstate.Models;
+using CleverEstate.Services.Classes;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
+using System;
+
 namespace CleverEstate.Forms.Buildings
 {
     public partial class FrmBuildings : Form
     {
-        private Button addNewRowButton = new Button();
-        private Panel buttonPanel = new Panel();
-        private BuildingService service;
-        public BindingSource bindingSource1 = new BindingSource();
-        Font font = new Font("Arial", 12);
+        private readonly BuildingRepository repository;
+        public readonly BindingSource bindingSource1 = new BindingSource();
+        private readonly Button addNewRowButton = new Button();
+        private readonly Button exitButton = new Button();
+        private readonly Font font = new Font("Segoe UI", 12);
+        private readonly Label titleLabel = new Label();
+        private readonly Panel topPanel = new Panel();
         public FrmBuildings()
         {
             InitializeComponent();
+            repository = new BuildingRepository(new DataDbContext());
             InitializeDataGridView();
+            SetupLayout();
+            Load += FrmBuildings_Load;
+            Resize += FrmBuildings_Resize; 
+        }
+
+        private void FrmBuildings_Load(object sender, EventArgs e)
+        {
+            SetupDataGridView();
+            LoadBuildingsFromRepository();
+        }
+        private void FrmBuildings_Resize(object sender, EventArgs e)
+        {
+            AdjustLayout();
+        }
+        private void LoadBuildingsFromRepository()
+        {
+            var buildingList = repository.GetAll();
+            bindingSource1.DataSource = buildingList;
+            dataGridView1.DataSource = bindingSource1;
         }
         private void InitializeDataGridView()
         {
-            try
-            {
-                dataGridView1.Dock = DockStyle.Fill;
-                dataGridView1.AutoGenerateColumns = true;
-                dataGridView1.DataSource = bindingSource1;
-                dataGridView1.AutoSizeRowsMode =
-                     DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-                dataGridView1.BorderStyle = BorderStyle.Fixed3D;
-            }
-            catch (SqlException)
-            {
-                MessageBox.Show("To run this sample replace connection.ConnectionString" +
-                    " with a valid connection string to a Northwind" +
-                    " database accessible to your system.", "ERROR",
-                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                System.Threading.Thread.CurrentThread.Abort();
-            }
-        }
-        private void FrmBuildings_Load(object sender, EventArgs e)
-        {
-            service = new BuildingService();
-            SetupLayout();
-            SetupDataGridView();
-            PopulateDataGridView();
-        }
-        public void PopulateDataGridView()
-        {
-            var buildinglist = service.GetAllBuildings();
-            bindingSource1.Clear();
-            foreach (var building in buildinglist)
-            {
-                var buildingcopy = new Building
-                {
-                    Id = building.Id,
-                    Address = building.Address,
-                };
-                bindingSource1.Add(buildingcopy);
-            }
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.DataSource = bindingSource1;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dataGridView1.BorderStyle = BorderStyle.None;
+            dataGridView1.DataBindingComplete += dataGridView1_DataBindingComplete;
         }
         private void SetupDataGridView()
         {
             this.Controls.Add(dataGridView1);
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font =
-                new Font(dataGridView1.Font, FontStyle.Bold);
-            dataGridView1.Name = "songsDataGridView";
-            dataGridView1.Location = new Point(8, 8);
-            dataGridView1.Size = new Size(500, 250);
-            dataGridView1.AutoSizeRowsMode =
-                DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            dataGridView1.ColumnHeadersBorderStyle =
-                DataGridViewHeaderBorderStyle.Single;
+            dataGridView1.Location = new Point(10, 60); // Adjusted for better spacing
+            dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - 140); // Responsive to form size
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(35, 35, 35); // Dark background
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; // White text for contrast
+            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dataGridView1.GridColor = Color.Black;
+            dataGridView1.GridColor = Color.Gray;
             dataGridView1.RowHeadersVisible = false;
-            dataGridView1.SelectionMode =
-            DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
-            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 12);
         }
         private void SetupLayout()
         {
-            this.Size = new Size(600, 500);
+            this.Size = new Size(800, 600);
+            this.Text = "Zgrade";
+            topPanel.Dock = DockStyle.Top;
+            topPanel.Height = 60;
+            this.Controls.Add(topPanel);
+            titleLabel.Text = "Zgrade";
+            titleLabel.Font = new Font("Segoe UI", 16, FontStyle.Bold);
+            titleLabel.AutoSize = true;
+            titleLabel.Location = new Point(20, 15); 
+            topPanel.Controls.Add(titleLabel);
             addNewRowButton.Text = "Add Row";
             addNewRowButton.Font = font;
-            addNewRowButton.Location = new Point(10, 10);
-            addNewRowButton.Click += new EventHandler(addNewRowButton_Click);
-            buttonPanel.Controls.Add(addNewRowButton);
-            buttonPanel.Height = 50;
-            buttonPanel.Dock = DockStyle.Bottom;
-            this.Controls.Add(this.buttonPanel);
+            addNewRowButton.Size = new Size(100, 40);
+            addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 10); // Positioned at top-right
+            addNewRowButton.FlatStyle = FlatStyle.Flat;
+            addNewRowButton.FlatAppearance.BorderSize = 0;
+            addNewRowButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            addNewRowButton.Click += addNewRowButton_Click;
+            topPanel.Controls.Add(addNewRowButton);
+            exitButton.Text = "Exit";
+            exitButton.Font = font;
+            exitButton.Size = new Size(100, 50);
+            exitButton.Location = new Point(this.ClientSize.Width - 120, this.ClientSize.Height - 60); // Positioned at bottom-right
+            exitButton.FlatStyle = FlatStyle.Flat;
+            exitButton.FlatAppearance.BorderSize = 0;
+            exitButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            exitButton.Click += exitButton_Click;
+            this.Controls.Add(exitButton);
+            AdjustLayout(); 
+        }
+
+        private void AdjustLayout()
+        {
+            addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 10); // Right aligned
+            exitButton.Location = new Point(this.ClientSize.Width - 120, this.ClientSize.Height - 60); // Right aligned at bottom
+            dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - 140);
         }
 
         private void addNewRowButton_Click(object sender, EventArgs e)
         {
-            FrmAddBuildings frmAddBuildings = new FrmAddBuildings(this, service);
-            frmAddBuildings.ShowDialog();
+            FrmAddBuildings frmAdd = new FrmAddBuildings(this, repository);
+            if (frmAdd.ShowDialog() == DialogResult.OK)
+            {
+                LoadBuildingsFromRepository();
+            }
+        }
+
+        private void exitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
@@ -110,14 +125,9 @@ namespace CleverEstate.Forms.Buildings
                 {
                     Name = "Edit",
                     Text = "Edit",
-                    UseColumnTextForButtonValue = true
+                    UseColumnTextForButtonValue = true,
                 };
                 dataGridView1.Columns.Add(btnEdit);
-            }
-            dataGridView1.Columns["Edit"].HeaderText = "";
-            if (dataGridView1.Columns.Count > 2)
-            {
-                dataGridView1.Columns["Edit"].DisplayIndex = 3;
             }
             if (!dataGridView1.Columns.Contains("Delete"))
             {
@@ -129,39 +139,39 @@ namespace CleverEstate.Forms.Buildings
                 };
                 dataGridView1.Columns.Add(btnDelete);
             }
-            dataGridView1.Columns["Delete"].HeaderText = "";
-            if (dataGridView1.Columns.Count > 3)
-            {
-                dataGridView1.Columns["Delete"].DisplayIndex = 3;
-            }
             if (dataGridView1.Columns.Contains("Id"))
             {
                 dataGridView1.Columns["Id"].Visible = false;
             }
-        }
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
-            if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
+            if (dataGridView1.Columns.Count > 3)
             {
-                dataGridView1.Rows.RemoveAt(e.RowIndex);
+                dataGridView1.Columns["Delete"].DisplayIndex = 2;
+                dataGridView1.Columns["Edit"].DisplayIndex = 3;
+                dataGridView1.Columns["Address"].DisplayIndex = 0;
+                dataGridView1.Columns["City"].DisplayIndex = 1;
             }
-            if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
             {
-                var selectedBuilding = (Building)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                FrmAddBuildings frm3 = new FrmAddBuildings(this, service, selectedBuilding);
-                frm3.ShowDialog();
-                int index = bindingSource1.IndexOf(selectedBuilding);
-                if (index != -1)
+                if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
                 {
-                    var updatedBuilding = new Building
+                    var buildingToDelete = (Guid)dataGridView1.Rows[e.RowIndex].Cells["Id"].Value;
+                    repository.Delete(buildingToDelete); 
+                    BindingSource bindingSource = (BindingSource)dataGridView1.DataSource;
+                    bindingSource.RemoveAt(e.RowIndex);
+                    dataGridView1.Refresh();
+                }
+                if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
+                {
+                    var selectedBuilding = (Building)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                    FrmAddBuildings frmEdit = new FrmAddBuildings(this, repository, selectedBuilding);
+                    if (frmEdit.ShowDialog() == DialogResult.OK)
                     {
-                        Address = selectedBuilding.Address,
-                         Id = selectedBuilding.Id
-                    };
-                    bindingSource1[index] = updatedBuilding;
-                    bindingSource1.ResetBindings(false);
+                        LoadBuildingsFromRepository();
+                    }
                 }
             }
         }

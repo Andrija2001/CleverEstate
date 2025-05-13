@@ -1,5 +1,8 @@
 ﻿using CleverEstate.Forms.Clients;
 using CleverEstate.Models;
+using CleverEstate.Services.Classes;
+using CleverEstate.Services.Classes.Repository;
+using CleverEstate.Services.Interface;
 using CleverState.Services.Classes;
 using System;
 using System.Windows.Forms;
@@ -7,12 +10,12 @@ namespace CleverEstate.Forms.CatalogItem
 {
     public partial class FrmAddItemCatalog : Form
     {
-        ItemCatalogService service;
+        private ItemCatalogRepository _repository;
         FrmItemCatalog FrmItemCatalog;
         private ItemCatalog currentCatalogItem;
         private bool isEditMode;
-        public FrmAddItemCatalog(FrmItemCatalog parentForm, ItemCatalogService service, ItemCatalog CatalogItemToEdit)
-        : this(parentForm, service)
+        public FrmAddItemCatalog(FrmItemCatalog parentForm, ItemCatalogRepository itemCatalogRepository, ItemCatalog CatalogItemToEdit)
+        : this(parentForm, itemCatalogRepository)
         {
             this.currentCatalogItem = CatalogItemToEdit;
             this.isEditMode = true;
@@ -22,11 +25,13 @@ namespace CleverEstate.Forms.CatalogItem
             txtPricePerUnit.Text = CatalogItemToEdit.PricePerUnit.ToString();
             txtUnit.Text = CatalogItemToEdit.Unit.ToString();
         }
-        public FrmAddItemCatalog(FrmItemCatalog frmItemCatalog, ItemCatalogService service)
+        public FrmAddItemCatalog(FrmItemCatalog frmItemCatalog, ItemCatalogRepository itemCatalogRepository)
         {
             InitializeComponent();
             this.FrmItemCatalog = frmItemCatalog;
-            this.service = service;
+            this._repository = itemCatalogRepository;
+            _repository = new ItemCatalogRepository(new DataDbContext());
+
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -44,16 +49,15 @@ namespace CleverEstate.Forms.CatalogItem
                 itemCatalog.Name = Name;
                 itemCatalog.Unit = Unit;
                 itemCatalog.PricePerUnit = PricePerUnit;
-                service.Create(itemCatalog);
+                _repository.Insert(itemCatalog);
                 FrmItemCatalog.bindingSource1.Add(itemCatalog);
-                FrmItemCatalog.PopulateDataGridView();
             }
             else
             {
                 currentCatalogItem.Name = txtName.Text;
                 currentCatalogItem.Unit = int.Parse(txtUnit.Text);
                 currentCatalogItem.PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
-                service.Update(currentCatalogItem);
+                _repository.Update(currentCatalogItem);
                 this.Close();
             }
         }

@@ -2,51 +2,28 @@
 using CleverEstate.Models;
 using System.Collections.Generic;
 using System;
+using CleverEstate.Services.Interface;
+using CleverEstate.Services.Interface.Repository;
 
 namespace CleverState.Services.Classes
 {
     public class ClientService : IClientService
     {
-        private List<Client> clients = new List<Client>();
-        public void Create(Client client)
-        {
-            clients.Add(client);
+        private readonly IClientRepository _repository;
 
+        public ClientService(IClientRepository repository)
+        {
+            _repository = repository;
         }
 
-        public void Delete(Guid Id)
-        {
-            var RemoveClients = clients.Find(a => a.Id == Id);
-            if (RemoveClients != null)
-            {
-                clients.Remove(RemoveClients);
-            }
-        }
+        public void Create(Client client) => _repository.Insert(client);
 
-        public Client GetClient(Guid Id)
-        {
-            return clients.Find(a => a.Id == Id);
-        }
+        public void Delete(Guid id) => _repository.Delete(id);
 
-        public void Update(Client client)
-        {
-            var UpdateClients = clients.Find(a => a.Id == a.Id);
-            if (UpdateClients != null)
-            {
-                UpdateClients.Id = client.Id;
-                UpdateClients.InvoiceId = client.InvoiceId;
-                UpdateClients.Name = client.Name;
-                UpdateClients.PIB = client.PIB;
-                UpdateClients.Address = client.Address;
-                UpdateClients.City = client.City;
-                UpdateClients.BankAccount = client.BankAccount;
-                UpdateClients.Surname = client.Surname;
-            }
-        }
+        public Client GetClient(Guid id) => _repository.GetById(id);
 
-        public List<Client> GetAllClients()
-        {
-            return clients;
-        }
+        public void Update(Client client) => _repository.Update(client);
+
+        public List<Client> GetAllClients() => _repository.GetAll();
     }
 }

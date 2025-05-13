@@ -2,53 +2,26 @@
 using CleverEstate.Models;
 using System.Collections.Generic;
 using System;
+using CleverEstate.Services.Interface.Repository;
 
 namespace CleverState.Services.Classes
 {
     public class InvoiceService : IInvoiceService
     {
-        private List<Invoice> Invoices = new List<Invoice>();
-
-        public void Create(Invoice invoice)
+        private readonly IInvoiceRepository _repository;
+        public InvoiceService(IInvoiceRepository repository)
         {
-            Invoices.Add(invoice);
-
+            _repository = repository;
         }
 
-        public void Delete(Guid Id)
-        {
-            var RemoveInvoice = Invoices.Find(a => a.Id == Id);
-            if (RemoveInvoice != null)
-            {
-                Invoices.Remove(RemoveInvoice);
-            }
-        }
+        public void Create(Invoice invoice) => _repository.Insert(invoice);
 
-        public Invoice GetInvoice(Guid Id)
-        {
-            return Invoices.Find(a => a.Id == Id);
-        }
+        public void Delete(Guid id) => _repository.Delete(id);
 
-        public void Update(Invoice Invoice)
-        {
-            var UpdateInvoice = Invoices.Find(a => a.Id == a.Id);
-            if (UpdateInvoice != null)
-            {
-                UpdateInvoice.Id = Invoice.Id;
-                UpdateInvoice.InvoiceNumber = Invoice.InvoiceNumber;
-                UpdateInvoice.InvoiceDate = Invoice.InvoiceDate;
-                UpdateInvoice.Date = Invoice.Date;
-                UpdateInvoice.Period = Invoice.Period;
-                UpdateInvoice.Description = Invoice.Description;
-                UpdateInvoice.Month = Invoice.Month;
-                UpdateInvoice.PaymentDeadline = Invoice.PaymentDeadline;
-            }
-        }
+        public Invoice GetInvoice(Guid id) => _repository.GetById(id);
 
+        public void Update(Invoice invoice) => _repository.Update(invoice);
 
-        public List<Invoice> GetAllInvoices()
-        {
-            return Invoices;
-        }
+        public List<Invoice> GetInvoice() => _repository.GetAll();
     }
 }

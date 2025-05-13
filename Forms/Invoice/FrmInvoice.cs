@@ -1,189 +1,264 @@
-using CleverEstate.Forms.Buildings;
-using CleverEstate.Forms.Clients;
+﻿using CleverEstate.Forms.Apartments;
+using CleverEstate.Forms.InvoiceItems;
 using CleverEstate.Models;
-using CleverState.Services.Classes;
+using CleverEstate.Services.Classes;
+using CleverEstate.Services.Classes.Repository;
+using CleverEstate.Services.Interface.Repository;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Windows.Forms;
+
 namespace CleverEstate.Forms.Invoices
 {
     public partial class FrmInvoice : Form
     {
+        private InvoiceItemRepository invoiceItemRepository;
+        private ApartmentRepository apartmentRepository;
+        private ClientRepository clientRepository;
+        private BuildingRepository buildingRepository;
+        private ItemCatalogRepository itemCatalogRepository;
+        private InvoiceRepository repository;
+
         private Button addNewRowButton = new Button();
         private Panel buttonPanel = new Panel();
-        private InvoiceService service;
         public BindingSource bindingSource1 = new BindingSource();
         Font font = new Font("Arial", 12);
 
         public FrmInvoice()
         {
-            InitializeComponent();
-            InitializeDataGridView();
-        }
-        private void InitializeDataGridView()
-        {
-            try
-            {
-                dataGridView1.Dock = DockStyle.Fill;
-                dataGridView1.AutoGenerateColumns = true;
-                dataGridView1.DataSource = bindingSource1;
-                dataGridView1.AutoSizeRowsMode =
-                     DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-                dataGridView1.BorderStyle = BorderStyle.Fixed3D;
+            itemCatalogRepository = new ItemCatalogRepository(new DataDbContext());
+            repository = new InvoiceRepository(new DataDbContext());
+            clientRepository = new ClientRepository(new DataDbContext());
+            buildingRepository = new BuildingRepository(new DataDbContext());
+            apartmentRepository = new ApartmentRepository(new DataDbContext());
+            invoiceItemRepository = new InvoiceItemRepository(new DataDbContext());
 
-            }
-            catch (SqlException)
-            {
-                MessageBox.Show("To run this sample replace connection.ConnectionString" +
-                    " with a valid connection string to a Northwind" +
-                    " database accessible to your system.", "ERROR",
-                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                System.Threading.Thread.CurrentThread.Abort();
-            }
+            InitializeComponent();
+            bindingSource1.DataSource = typeof(Invoice);
         }
 
         private void FrmInvoice_Load(object sender, EventArgs e)
         {
-            service = new InvoiceService();
-            SetupLayout();
-            SetupDataGridView();
-            PopulateDataGridView();
-        }
-        public void PopulateDataGridView()
-        {
-            var InvoiceList = service.GetAllInvoices();
-            bindingSource1.Clear();
-            foreach (var invoice in InvoiceList)
-            {
-                var invoicecopy = new Invoice
-                {
-                    Id = invoice.Id,
-                    Date = invoice.Date,
-                    Description = invoice.Description,
-                    InvoiceDate = invoice.InvoiceDate,
-                    InvoiceNumber = invoice.InvoiceNumber,
-                    Month = invoice.Month,
-                    PaymentDeadline = invoice.PaymentDeadline,
-                    Period = invoice.Period,
-                };
-                bindingSource1.Add(invoicecopy);
-            }
+            FillComboBox();
+            LoadInvoices();
         }
 
+        private void FillComboBox()
+        {
+            var clients = clientRepository.GetAll();
+            var displayList = clients.Select(c => new
+            {
+                FullName = c.Name + " " + c.Surname,
+                c.Id
+            }).ToList();
+
+            cmbClients.DataSource = displayList;
+            cmbClients.DisplayMember = "FullName";
+            cmbClients.ValueMember = "Id";
+            cmbClients.SelectedIndex = cmbClients.Items.Count > 0 ? 0 : -1;
+
+            var apartments = apartmentRepository.GetAll();
+            cmbApartmants.DataSource = apartments;
+            cmbApartmants.DisplayMember = "Number";
+            cmbApartmants.ValueMember = "Id";
+            cmbApartmants.SelectedIndex = cmbApartmants.Items.Count > 0 ? 0 : -1;
+        }
+
+        public void LoadInvoices()
+        {
+            var invoiceItems = invoiceItemRepository.GetAll();
+            var itemCatalog = itemCatalogRepository.GetAll();
+            var invoices = repository.GetAll();
+            var apartments = apartmentRepository.GetAll();
+
+            BindingSource bindingSource = new BindingSource();
+
+            // Lista za smeštanje podataka pre sortiranja
+            List<dynamic> dataList = new List<dynamic>();
+
+            foreach (var invoice in invoices)
+            {
+                // Pronađi stanove koji pripadaju klijentima
+                var clientApartments = apartments
+                    .Where(a => a.ClientId == invoice.ClientId)
+                    .ToList();
+
+                foreach (var invoiceItem in invoiceItems.Where(x => x.InvoiceId == invoice.Id))
+                {
+                    var item = itemCatalog.FirstOrDefault(ic => ic.Id == invoiceItem.ItemCatalogId);
+
+                    // Za svaki stan, uzimamo njegovu površinu
+                    foreach (var apartment in clientApartments)
+                    {
+                        decimal totalPrice = invoiceItem.PricePerUnit * apartment.Area;  // Cena * Površina stanova
+
+                        var dataItem = new
+                        {
+                            Number = invoiceItem.Number,                 // Broj iz InvoiceItem
+                            ItemName = item != null ? item.Name : "N/A",  // Naziv iz ItemCatalog
+                            PricePerUnit = invoiceItem.PricePerUnit,      // Cena po jedinici
+                            Area = apartment.Area,                        // Površina iz Apartment
+                            Unit = invoiceItem.Number,                    // Jedinica (broj)
+                            Total = totalPrice                            // Cena * Površina stana
+                        };
+
+                        // Dodaj stavku u listu
+                        dataList.Add(dataItem);
+                    }
+                }
+            }
+
+            // Sortiraj listu po 'Unit' u rastućem redosledu
+            var sortedDataList = dataList.OrderBy(item => item.Unit).ToList();
+
+            // Dodaj sortirane podatke u BindingSource
+            foreach (var dataItem in sortedDataList)
+            {
+                bindingSource.Add(dataItem);
+            }
+
+            // Poveži BindingSource sa DataGridView
+            dataGridView1.DataSource = bindingSource;
+            dataGridView1.Refresh();
+        }
+
+
+
+
         private void SetupDataGridView()
-        { 
+        {
             this.Controls.Add(dataGridView1);
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font =
-                new Font(dataGridView1.Font, FontStyle.Bold);
-            dataGridView1.Name = "songsDataGridView";
-            dataGridView1.Location = new Point(8, 8);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font(dataGridView1.Font, FontStyle.Bold);
             dataGridView1.Size = new Size(500, 250);
-            dataGridView1.AutoSizeRowsMode =
-                DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            dataGridView1.ColumnHeadersBorderStyle =
-                DataGridViewHeaderBorderStyle.Single;
-            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dataGridView1.GridColor = Color.Black;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.SelectionMode =
-            DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.MultiSelect = false;
             dataGridView1.Dock = DockStyle.Fill;
         }
 
-        private void SetupLayout()
-        {
-            this.Size = new Size(600, 500);
-            addNewRowButton.Text = "Add Row";
-            addNewRowButton.Font = font;
-            addNewRowButton.AutoSize = true;
-            addNewRowButton.Location = new Point(10, 10);
-            addNewRowButton.Click += new EventHandler(addNewRowButton_Click);
-            buttonPanel.Controls.Add(addNewRowButton);
-            buttonPanel.Height = 50;
-            buttonPanel.Dock = DockStyle.Bottom;
-            this.Controls.Add(this.buttonPanel);
-        }
-
-        private void addNewRowButton_Click(object sender, EventArgs e)
-        {
-            FrmAddInvoice frmAddInvoice = new FrmAddInvoice(this, service);
-            frmAddInvoice.ShowDialog();
-        }
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-            if (!dataGridView1.Columns.Contains("Edit"))
-            {
-                var btnEdit = new DataGridViewButtonColumn
-                {
-                    Name = "Edit",
-                    Text = "Edit",
-                    UseColumnTextForButtonValue = true
-                };
-
-                dataGridView1.Columns.Add(btnEdit);
-            }
-            dataGridView1.Columns["Edit"].HeaderText = "";
-            if (dataGridView1.Columns.Count > 2)
-            {
-                dataGridView1.Columns["Edit"].DisplayIndex = 8;
-            }
             if (!dataGridView1.Columns.Contains("Delete"))
             {
                 var btnDelete = new DataGridViewButtonColumn
                 {
                     Name = "Delete",
                     Text = "Delete",
-                    UseColumnTextForButtonValue = true,
+                    UseColumnTextForButtonValue = true
                 };
                 dataGridView1.Columns.Add(btnDelete);
             }
-            dataGridView1.Columns["Delete"].HeaderText = "";
-            if (dataGridView1.Columns.Count > 3)
-            {
-                dataGridView1.Columns["Delete"].DisplayIndex = 9;
-            }
+
+            dataGridView1.Columns["Delete"].DisplayIndex = dataGridView1.Columns.Count - 1;
+
             if (dataGridView1.Columns.Contains("Id"))
-            {
                 dataGridView1.Columns["Id"].Visible = false;
-            }
+
+            if (dataGridView1.Columns.Contains("InvoiceId"))
+                dataGridView1.Columns["InvoiceId"].Visible = false;
         }
+
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
+
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
             {
-                dataGridView1.Rows.RemoveAt(e.RowIndex);
+                var invoiceId = (Guid)dataGridView1.Rows[e.RowIndex].Cells["Id"].Value;
+                repository.Delete(invoiceId);
+
+                BindingSource bindingSource = (BindingSource)dataGridView1.DataSource;
+                bindingSource.RemoveAt(e.RowIndex);
+                dataGridView1.Refresh();
             }
-            if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var selectedClient = cmbClients.SelectedValue as Guid?;
+            var selectedBuilding = cmbApartmants.SelectedValue as Guid?;
+
+            if (selectedClient.HasValue && selectedBuilding.HasValue)
             {
-                var selectedInvoice = (Invoice)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                FrmAddInvoice frm3 = new FrmAddInvoice(this, service, selectedInvoice);
-                frm3.ShowDialog();
-                int index = bindingSource1.IndexOf(selectedInvoice);
-                if (index != -1)
+                var invoice = repository.GetAll().FirstOrDefault(i => i.ClientId == selectedClient.Value);
+
+                if (invoice == null)
                 {
-                    var updatedInvoice = new Invoice
+                    invoice = new Invoice
                     {
-                       Period = selectedInvoice.Period,
-                       PaymentDeadline = selectedInvoice.PaymentDeadline,
-                       Month = selectedInvoice.Month,
-                       Date = selectedInvoice.Date,
-                        Description = selectedInvoice.Description,
-                        Id  = selectedInvoice.Id,
-                         InvoiceDate = selectedInvoice.InvoiceDate,
-                         InvoiceNumber = selectedInvoice.InvoiceNumber
+                        ClientId = selectedClient.Value,
+                        Id = Guid.NewGuid(),
                     };
-                    bindingSource1[index] = updatedInvoice;
-                    bindingSource1.ResetBindings(false);
+
+                    repository.Insert(invoice);
                 }
+
+                FrmAddInvoiceItem frmAddInvoiceItem = new FrmAddInvoiceItem(
+                    this,
+                    invoiceItemRepository,
+                    itemCatalogRepository,
+                    clientRepository,
+                    selectedBuilding.Value,
+                    selectedClient.Value,
+                    invoice.Id
+                );
+
+                frmAddInvoiceItem.ShowDialog();
             }
+            else
+            {
+                MessageBox.Show("Molimo izaberite adresu.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cmbClients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Filtriraj();
+        }
+
+        public void Filtriraj()
+        {
+            var selectedClient = cmbClients.SelectedItem as dynamic;
+            if (selectedClient == null) return;
+
+            string clientName = selectedClient.FullName;
+            var klijent = clientRepository.GetAll()
+                                          .FirstOrDefault(k => (k.Name + " " + k.Surname) == clientName);
+            if (klijent == null) return;
+
+            var apartmentsForClient = apartmentRepository.GetAll()
+                                                         .Where(a => a.ClientId == klijent.Id)
+                                                         .ToList();
+
+            var invoicesForClient = repository.GetAll()
+                                              .Where(i => i.ClientId == klijent.Id)
+                                              .ToList();
+
+            var data = invoicesForClient.SelectMany(invoice =>
+            {
+                var invoiceItems = invoiceItemRepository.GetAll()
+                                                        .Where(ii => ii.InvoiceId == invoice.Id)
+                                                        .ToList();
+
+                decimal totalArea = apartmentsForClient.Sum(a => a.Area);
+
+                return invoiceItems.Select(ii =>
+                {
+                    var item = itemCatalogRepository.GetAll().FirstOrDefault(ic => ic.Id == ii.ItemCatalogId);
+                    decimal totalPrice = totalArea * ii.PricePerUnit;
+
+                    return new
+                    {
+                        ii.PricePerUnit,
+                        TotalPrice = totalPrice,
+                        ItemName = item?.Name ?? "N/A"
+                    };
+                });
+            }).ToList();
+
+            dataGridView1.DataSource = data;
+            dataGridView1.Refresh();
         }
     }
 }

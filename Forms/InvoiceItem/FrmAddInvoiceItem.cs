@@ -1,88 +1,105 @@
-﻿using CleverEstate.Forms.CatalogItem;
-using CleverEstate.Models;
-using CleverState.Services.Classes;
+﻿using CleverEstate.Models;
+using CleverEstate.Services.Classes.Repository;
+using CleverEstate.Services.Interface.Repository;
 using System;
 using System.Windows.Forms;
-using System.Xml.Linq;
+using System.Collections.Generic;
+using CleverEstate.Services.Classes;
+using CleverEstate.Forms.Invoices;
+using static System.Windows.Forms.MonthCalendar;
+using CleverEstate.Forms.Apartments;
+using System.Linq;
+
 namespace CleverEstate.Forms.InvoiceItems
 {
     public partial class FrmAddInvoiceItem : Form
     {
-        InvoiceItemService service;
-        FrmInvoiceItem FrmInvoiceItem;
-        private InvoiceItem CurrentInvoiceItem;
-        private bool isEditMode;
-        public FrmAddInvoiceItem(FrmInvoiceItem parentForm, InvoiceItemService service, InvoiceItem InvoiceItemToEdit)
-        : this(parentForm, service)
+        private FrmInvoice parentForm;
+        private InvoiceItemRepository _invoiceItemRepository;
+        private ItemCatalogRepository _itemCatalogRepository;
+        private ClientRepository _clientRepository;
+        private Guid _buildingId;
+        private Guid _clientId;
+        private Guid _invoiceId;
+
+
+
+        public FrmAddInvoiceItem(FrmInvoice parent, InvoiceItemRepository invoiceItemRepository,
+        ItemCatalogRepository itemCatalogRepository, ClientRepository clientRepository,
+        Guid buildingId, Guid clientId, Guid invoiceId)
         {
-            this.CurrentInvoiceItem = InvoiceItemToEdit;
-            this.isEditMode = true;
-            this.Text = "FrmEditInvoiceItem";
-            button1.Text = "OK";
-            txtNumber.Text = InvoiceItemToEdit.Number;
-            txtPricePerUnit.Text=InvoiceItemToEdit.PricePerUnit.ToString();
-            txtQuantity.Text=InvoiceItemToEdit.Quantity.ToString();
-            txtTotalPrice.Text=InvoiceItemToEdit.TotalPrice.ToString();
-            txtVAT.Text=InvoiceItemToEdit.VAT.ToString();
-            txtVATRate.Text = InvoiceItemToEdit.VATRate.ToString();
-        }
-        public FrmAddInvoiceItem(FrmInvoiceItem FrmInvoiceItem, InvoiceItemService service)
-        {
+            parentForm = parent;
+            _invoiceItemRepository = invoiceItemRepository;
+            _itemCatalogRepository = itemCatalogRepository;
+            _clientRepository = clientRepository;
+            _buildingId = buildingId;
+            _clientId = clientId;
+            _invoiceId = invoiceId;
             InitializeComponent();
-            this.FrmInvoiceItem = FrmInvoiceItem;
-            this.service = service;
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!isEditMode)
+
+            var itemCatalogId = (Guid)cmbItems.SelectedValue;
+            var pricePerUnit = decimal.Parse(txtPricePerUnit.Text);
+            var quantity = int.Parse(txtQuantity.Text);
+            var vatRate = decimal.Parse(txtVATRate.Text);
+            var vat = decimal.Parse(txtVAT.Text);
+            var totalPrice = decimal.Parse(txtTotalPrice.Text);
+            var number = txtNumber.Text;
+
+            // Proveravamo da li već postoji stavka sa istim InvoiceId i ItemCatalogId
+            var existingItem = _invoiceItemRepository.GetAll()
+                .FirstOrDefault(item => item.InvoiceId == _invoiceId && item.ItemCatalogId == itemCatalogId);
+
+            if (existingItem != null)
             {
-                InvoiceItem InvoiceItem = new InvoiceItem();
-                if (txtNumber.Text == "" || txtPricePerUnit.Text == "" || txtQuantity.Text == "" || txtTotalPrice.Text == "" || txtVAT.Text == "" || txtVATRate.Text == "")
-                {
-                    return;
-                }
-                string Number = txtNumber.Text;
-                decimal PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
-                int Quantity = int.Parse(txtQuantity.Text);
-                decimal TotalPrice = decimal.Parse(txtTotalPrice.Text);
-                decimal VAT=decimal.Parse(txtVAT.Text);
-                decimal VATRate = decimal.Parse(txtVATRate.Text);
-                InvoiceItem.Id = Guid.NewGuid();
-                InvoiceItem.InvoiceId = Guid.NewGuid();
-                InvoiceItem.ItemCatalogId = Guid.NewGuid();
-                InvoiceItem.Number = Number;
-                InvoiceItem.PricePerUnit= PricePerUnit;
-                InvoiceItem.Quantity = Quantity;
-                InvoiceItem.TotalPrice = TotalPrice;
-                InvoiceItem.VAT= VAT;
-                InvoiceItem.VATRate= VATRate;
-                service.Create(InvoiceItem);
-                FrmInvoiceItem.bindingSource1.Add(InvoiceItem);
-                FrmInvoiceItem.PopulateDataGridView();
+                // Ako stavka već postoji, obavestite korisnika i nemojte dodavati novu stavku
+                MessageBox.Show("Ova stavka već postoji za ovu fakturu.");
+                return;  // Prestanite sa izvršavanjem funkcije
             }
             else
             {
-                CurrentInvoiceItem.Number = txtNumber.Text;
-                CurrentInvoiceItem.PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
-                CurrentInvoiceItem.Quantity =int.Parse(txtQuantity.Text);
-                CurrentInvoiceItem.TotalPrice = decimal.Parse(txtTotalPrice.Text);
-                CurrentInvoiceItem.VAT = decimal.Parse(txtVAT.Text);
-                CurrentInvoiceItem.VATRate = decimal.Parse(txtVATRate.Text);
-                service.Update(CurrentInvoiceItem);
+                // Ako stavka ne postoji, kreiramo novu stavku
+                var invoiceItem = new InvoiceItem
+                {
+                    Id = Guid.NewGuid(),
+                    InvoiceId = _invoiceId,
+                    ItemCatalogId = itemCatalogId,
+                    Quantity = quantity,
+                    PricePerUnit = pricePerUnit,
+                    VAT = vat,
+                    VATRate = vatRate,
+                    TotalPrice = totalPrice,
+                    Number = number,
+                };
+
+                // Dodajemo novu stavku u bazu
+                _invoiceItemRepository.Insert(invoiceItem);
                 this.Close();
+                parentForm.Filtriraj();
+                
+            }
+
+        }
+
+
+        private void FrmAddInvoiceItem_Load(object sender, EventArgs e)
+        {
+            FillComboBox();
+        }
+
+        private void FillComboBox()
+        {
+            var itemCatalog = _itemCatalogRepository.GetAll();
+            cmbItems.DataSource = itemCatalog;
+            cmbItems.DisplayMember = "Name";
+            cmbItems.ValueMember = "Id";
+            if (cmbItems.Items.Count > 0)
+            {
+                cmbItems.SelectedIndex = 0;
             }
         }
-        private void FrmAddInvoiceItem_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
-                (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-            }
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-            {
-                e.Handled = true;
-            }
-        }      
     }
 }
+

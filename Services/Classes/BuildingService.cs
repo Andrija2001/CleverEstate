@@ -2,45 +2,27 @@
 using CleverEstate.Models;
 using System.Collections.Generic;
 using System;
+using CleverEstate.Services.Interface;
 
 namespace CleverState.Services.Classes
 {
     public class BuildingService : IBuildingService
     {
-        private List<Building> buildings = new List<Building>();
+        private readonly IBuildingRepository _repository;
 
-        public void Create(Building building)
+        public BuildingService(IBuildingRepository repository)
         {
-            buildings.Add(building);
+            _repository = repository;
         }
 
-        public void Delete(Guid Id)
-        {
-            var RemoveBuildings = buildings.Find(a => a.Id == Id);
-            if (RemoveBuildings != null)
-            {
-                buildings.Remove(RemoveBuildings);
-            }
-        }
+        public void Create(Building building) => _repository.Insert(building);
 
-        public Building GetBuilding(Guid Id)
-        {
-            return buildings.Find(a => a.Id == Id);
-        }
+        public void Delete(Guid id) => _repository.Delete(id);
 
-        public void Update(Building building)
-        {
-            var UpdateBuildings = buildings.Find(a => a.Id == a.Id);
-            if (UpdateBuildings != null)
-            {
-                UpdateBuildings.Id = building.Id;
-                UpdateBuildings.Address = building.Address;
-            }
-        }
+        public Building GetBuilding(Guid id) => _repository.GetById(id);
 
-        public List<Building> GetAllBuildings()
-        {
-            return buildings;
-        }
+        public void Update(Building building) => _repository.Update(building);
+
+        public List<Building> GetAllBuildings() => _repository.GetAll();
     }
 }

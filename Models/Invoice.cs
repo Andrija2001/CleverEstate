@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CleverEstate.Models
 {
@@ -12,5 +13,7 @@ namespace CleverEstate.Models
         public int InvoiceNumber { get; set; }
         public DateTime InvoiceDate { get; set; }
         public string Description { get; set; }
+        public Guid ClientId { get; set; }
+        public List<InvoiceItem> InvoiceItems { get; set; }
     }
 }

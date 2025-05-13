@@ -4,6 +4,7 @@ using CleverEstate.Forms.CatalogItem;
 using CleverEstate.Forms.Clients;
 using CleverEstate.Forms.InvoiceItems;
 using CleverEstate.Forms.Invoices;
+using CleverEstate.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,6 +48,12 @@ namespace CleverEstate
             frmItemCatalog.ShowDialog();
         }
 
+  
+
+       
+   
+
      
+
     }
 }

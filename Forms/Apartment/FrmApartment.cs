@@ -1,104 +1,195 @@
-using CleverEstate.Models;
-using CleverState.Services.Classes;
+﻿using CleverEstate.Models;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
+using CleverEstate.Services.Classes.Repository;
+using CleverEstate.Services.Interface.Repository;
+using CleverEstate.Services.Classes;
+using System.Collections.Generic;
+using System.Linq;
+using CleverEstate.Forms.Buildings;
+using System.Net.NetworkInformation;
+
 namespace CleverEstate.Forms.Apartments
 {
     public partial class FrmApartment : Form
     {
-        private Button addNewRowButton = new Button();
-        private Panel buttonPanel = new Panel();
-        private ApartmentService service;
-        public BindingSource bindingSource1 = new BindingSource();
-        Font font = new Font("Arial", 12);
+        private readonly ApartmentRepository repository;
+        private readonly BuildingRepository buildingRepository;
+        private readonly ClientRepository clientRepository;
+        public readonly BindingSource bindingSource1 = new BindingSource();
+        private readonly Button addNewRowButton = new Button();
+        private readonly Button exitButton = new Button();
+        private readonly Font font = new Font("Segoe UI", 12);
+        private readonly Label titleLabel = new Label();
+        private readonly Label lblZgrade = new Label();
+        private readonly ComboBox comboBoxAdd = new ComboBox();
+        private readonly Button btnAdd = new Button();
+        private readonly Panel topPanel = new Panel();
         public FrmApartment()
         {
             InitializeComponent();
+            repository = new ApartmentRepository(new DataDbContext());
+            clientRepository = new ClientRepository(new DataDbContext());
+            buildingRepository = new BuildingRepository(new DataDbContext());
             InitializeDataGridView();
+            dataGridView1.CellClick += dataGridView1_CellClick;
+            SetupLayout();
         }
         private void InitializeDataGridView()
         {
-            try
-            {
-                dataGridView1.Dock = DockStyle.Fill;
-                dataGridView1.AutoGenerateColumns = true;
-                dataGridView1.DataSource = bindingSource1;
-                dataGridView1.AutoSizeRowsMode =
-                     DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-                dataGridView1.BorderStyle = BorderStyle.Fixed3D;
-            }
-            catch (SqlException)
-            {
-                MessageBox.Show("To run this sample replace connection.ConnectionString" +
-                    " with a valid connection string to a Northwind" +
-                    " database accessible to your system.", "ERROR",
-                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                System.Threading.Thread.CurrentThread.Abort();
-            }
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.DataSource = bindingSource1;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            dataGridView1.BorderStyle = BorderStyle.None;
+            dataGridView1.DataBindingComplete += dataGridView1_DataBindingComplete;
         }
         private void FrmApartment_Load(object sender, EventArgs e)
         {
-            service = new ApartmentService();
-            SetupLayout();
             SetupDataGridView();
-            PopulateDataGridView();
+            LoadApartmants();
+            FillComboBox();
         }
-        public void PopulateDataGridView()
+        private void FillComboBox()
         {
-            var listaApartmana = service.GetAllApartments();
-            bindingSource1.Clear();
-            foreach (var apartment in listaApartmana)
+            var buildings = buildingRepository.GetAll();
+            comboBoxAdd.DataSource = buildings;
+            comboBoxAdd.DisplayMember = "Address";
+            comboBoxAdd.ValueMember = "Id";
+            if (comboBoxAdd.Items.Count > 0)
             {
-                var apartmentCopy = new Apartment
-                {
-                    Id = apartment.Id,
-                    Area = apartment.Area,
-                    Number = apartment.Number
-                };
-                bindingSource1.Add(apartmentCopy);
+                comboBoxAdd.SelectedIndex = 0;
             }
+        }
+        public void LoadApartmants()
+        {
+            var clients = clientRepository.GetAll();
+            var apartmants = repository.GetAll();
+            var combinedData = apartmants.Select(a => new
+            {
+                ApartmanId = a.Id,
+                BrojApartmana = a.Number,
+                Površina = a.Area,
+                KlijentId = a.ClientId,
+                ImeKlijenta = clients.FirstOrDefault(k => k.Id == a.ClientId)?.Name ?? "N/A",
+                PrezimeKlijenta = clients.FirstOrDefault(k => k.Id == a.ClientId)?.Surname ?? "N/A",
+                Id = a.Id 
+            }).ToList();
+            dataGridView1.DataSource = combinedData;
         }
         private void SetupDataGridView()
         {
             this.Controls.Add(dataGridView1);
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.Red;
-            dataGridView1.ColumnHeadersDefaultCellStyle.Font =
-                new Font(dataGridView1.Font, FontStyle.Bold);
-            dataGridView1.Name = "songsDataGridView";
-            dataGridView1.Location = new Point(8, 8);
-            dataGridView1.Size = new Size(500, 250);
-            dataGridView1.AutoSizeRowsMode =
-                DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            dataGridView1.ColumnHeadersBorderStyle =
-                DataGridViewHeaderBorderStyle.Single;
+            dataGridView1.Location = new Point(10, 100);
+            dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - 140);
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(35, 35, 35);
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dataGridView1.GridColor = Color.Black;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.SelectionMode =
-            DataGridViewSelectionMode.FullRowSelect;
+            dataGridView1.GridColor = Color.Gray;
+            dataGridView1.RowHeadersVisible = true;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
-            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.AutoGenerateColumns = true;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 12);
         }
-        private void SetupLayout()
+       private void SetupLayout()
         {
-            this.Size = new Size(600, 500);
+            this.Size = new Size(800, 600);
+            this.Text = "Zgrade";
+            topPanel.Dock = DockStyle.Top;
+            topPanel.Height = 100;
+            this.Controls.Add(topPanel);
+            titleLabel.Text = "Zgrade";
+            titleLabel.Font = new Font("Segoe UI", 16, FontStyle.Bold);
+            titleLabel.AutoSize = true;
+            titleLabel.Location = new Point(20, 15);
+            topPanel.Controls.Add(titleLabel);
             addNewRowButton.Text = "Add Row";
             addNewRowButton.Font = font;
-            addNewRowButton.Location = new Point(10, 10);
-            addNewRowButton.Click += new EventHandler(addNewRowButton_Click);
-            buttonPanel.Controls.Add(addNewRowButton);
-            buttonPanel.Height = 50;
-            buttonPanel.Dock = DockStyle.Bottom;
-            this.Controls.Add(this.buttonPanel);
+            addNewRowButton.Size = new Size(100, 40);
+            addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 55);
+            addNewRowButton.FlatStyle = FlatStyle.Flat;
+            addNewRowButton.FlatAppearance.BorderSize = 0;
+            addNewRowButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            addNewRowButton.Click += addNewRowButton_Click;
+            topPanel.Controls.Add(addNewRowButton);
+            lblZgrade.Text = "Adresa:";
+            lblZgrade.Font = font;
+            lblZgrade.AutoSize = true;
+            lblZgrade.Location = new Point(this.ClientSize.Width - 250, 30);
+            topPanel.Controls.Add(lblZgrade);
+            comboBoxAdd.Location = new Point(this.ClientSize.Width - 180, 32);
+            comboBoxAdd.Size = new Size(120, 30);
+            comboBoxAdd.Anchor = AnchorStyles.Top;
+            comboBoxAdd.SelectedIndexChanged += AddressFilter;
+            topPanel.Controls.Add(comboBoxAdd);
+            exitButton.Text = "Exit";
+            exitButton.Font = font;
+            exitButton.Size = new Size(100, 30);
+            exitButton.Location = new Point(this.ClientSize.Width - 100, this.ClientSize.Height - 20);
+            exitButton.FlatStyle = FlatStyle.Flat;
+            exitButton.FlatAppearance.BorderSize = 0;          
+            this.Controls.Add(exitButton);
+        }
+        private void AddressFilter(object sender, EventArgs e)
+        {
+            FiltrirajAdrese();
+        }
+        public void FiltrirajAdrese()
+        {
+            string adresa = comboBoxAdd.Text;
+            var zgrade = buildingRepository.GetAll();
+            var apartmani = repository.GetAll();
+            var klijenti = clientRepository.GetAll();
+            var building = zgrade.FirstOrDefault(b => b.Address == adresa);
+            if (building == null)
+            {
+                return;
+            }
+            var apartmanizazgradu = apartmani.Where(a => a.BuildingId == building.Id).ToList();
+            var prikaz = apartmanizazgradu.Select(a =>
+            {
+                var klijent = klijenti.FirstOrDefault(k => k.Id == a.ClientId);
+                return new
+                {
+                    a.Number,
+                    a.Area,
+                    Name = klijent?.Name ?? "Nepoznato",
+                    Surname = klijent?.Surname ?? "Nepoznato",
+                    a.Id,
+                    a.ClientId,
+                };
+            }).ToList();
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = prikaz;
+            if (dataGridView1.Columns.Contains("Id"))
+            {
+                dataGridView1.Columns["Id"].Visible = false;
+            }
+            if (dataGridView1.Columns.Contains("BuildingId"))
+            {
+                dataGridView1.Columns["BuildingId"].Visible = false;
+            }
+            if (dataGridView1.Columns.Contains("ClientId"))
+            {
+                dataGridView1.Columns["ClientId"].Visible = false;
+            }
         }
         private void addNewRowButton_Click(object sender, EventArgs e)
         {
-            FrmAddApartment frmAddApartment = new FrmAddApartment(this,service);
-            frmAddApartment.ShowDialog();
+            var selectedBuildingId = comboBoxAdd.SelectedValue as Guid?;
+
+            if (selectedBuildingId.HasValue)
+            {
+                FrmAddApartment frmAddApartment = new FrmAddApartment(this, repository, selectedBuildingId.Value, clientRepository);
+                frmAddApartment.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Molimo izaberite adresu.", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
@@ -108,15 +199,9 @@ namespace CleverEstate.Forms.Apartments
                 {
                     Name = "Edit",
                     Text = "Edit",
-                    UseColumnTextForButtonValue = true
+                    UseColumnTextForButtonValue = true,
                 };
-
                 dataGridView1.Columns.Add(btnEdit);
-            }
-            dataGridView1.Columns["Edit"].HeaderText = "";
-            if (dataGridView1.Columns.Count > 2)
-            {
-                dataGridView1.Columns["Edit"].DisplayIndex = 5;
             }
             if (!dataGridView1.Columns.Contains("Delete"))
             {
@@ -128,43 +213,45 @@ namespace CleverEstate.Forms.Apartments
                 };
                 dataGridView1.Columns.Add(btnDelete);
             }
-            dataGridView1.Columns["Delete"].HeaderText = "";
+
             if (dataGridView1.Columns.Count > 3)
             {
                 dataGridView1.Columns["Delete"].DisplayIndex = 4;
+                dataGridView1.Columns["Edit"].DisplayIndex = 5;
+               
             }
-            if (dataGridView1.Columns.Contains("ClientId") && dataGridView1.Columns.Contains("Id") && dataGridView1.Columns.Contains("BuildingId"))
+            string[] idColumns = { "Id", "BuildingId", "ClientId" };
+            foreach (string colName in idColumns)
             {
-                dataGridView1.Columns["ClientId"].Visible = false;
-                dataGridView1.Columns["Id"].Visible = false;
-                dataGridView1.Columns["BuildingId"].Visible = false;
+                if (dataGridView1.Columns.Contains(colName))
+                {
+                    dataGridView1.Columns[colName].Visible = false;
+                }
             }
         }
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0)
-                return;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
             {
-                dataGridView1.Rows.RemoveAt(e.RowIndex);
+                    var buildingToDelete = (Guid)dataGridView1.Rows[e.RowIndex].Cells["Id"].Value;
+                    repository.Delete(buildingToDelete); 
+                    BindingSource bindingSource = (BindingSource)dataGridView1.DataSource;
+                    bindingSource.RemoveAt(e.RowIndex);
+                    dataGridView1.Refresh();
             }
             if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
             {
-                var selectedApartment = (Apartment)dataGridView1.Rows[e.RowIndex].DataBoundItem;
-                FrmAddApartment frm3 = new FrmAddApartment(this, service, selectedApartment);
-                frm3.ShowDialog();
-                int index = bindingSource1.IndexOf(selectedApartment);
-                if (index != -1)
+                var selectedClientId = (Guid)dataGridView1.Rows[e.RowIndex].Cells["ClientId"].Value;
+                var selectedApartmentId = (Guid)dataGridView1.Rows[e.RowIndex].Cells["Id"].Value;       
+                var selectedBuilding = (Guid)comboBoxAdd.SelectedValue;
+                var selectedApartment = repository.GetById(selectedApartmentId);
+                var currentClient = clientRepository.GetById(selectedClientId);
+                FrmAddApartment frmEdit = new FrmAddApartment(this, repository, selectedApartment, selectedBuilding, clientRepository, currentClient);
+                if (frmEdit.ShowDialog() == DialogResult.OK)
                 {
-                    var updatedApartment = new Apartment
-                    {
-                        Id = selectedApartment.Id,
-                        Area = selectedApartment.Area,
-                        Number = selectedApartment.Number
-                    };
-                    bindingSource1[index] = updatedApartment;
-                    bindingSource1.ResetBindings(false); 
+                    FiltrirajAdrese();
                 }
             }
         }

@@ -1,71 +1,81 @@
-﻿using CleverEstate.Forms.Apartments;
-using CleverEstate.Models;
-using CleverState.Services.Classes;
+﻿using CleverEstate.Models;
+using CleverEstate.Services.Classes;
+using CleverState.Services.Interface;
 using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using static System.Windows.Forms.MonthCalendar;
 
 namespace CleverEstate.Forms.Buildings
 {
     public partial class FrmAddBuildings : Form
     {
-        BuildingService service;
-        FrmBuildings FrmBuildings;
-        private Building currentBuilding;
-        private bool isEditMode;
-        public bool IsValidAddress(string address)
+        private readonly BuildingRepository buildingRepository;
+        private readonly FrmBuildings parentForm;
+        private readonly Building currentBuilding;
+        private readonly bool isEditMode;
+        public FrmAddBuildings(FrmBuildings parentForm, BuildingRepository buildingRepository)
         {
-            return Regex.IsMatch(address, @"^[a-zA-Z\s]+$");
+            InitializeComponent();
+            this.parentForm = parentForm;
+            this.buildingRepository = buildingRepository; 
+            this.currentBuilding = new Building();
+            this.isEditMode = false;
         }
-        public FrmAddBuildings(FrmBuildings parentForm, BuildingService service, Building buildingToEdit)
-      : this(parentForm, service)
+        public FrmAddBuildings(FrmBuildings parentForm, BuildingRepository buildingRepository, Building buildingToEdit)
+            : this(parentForm, buildingRepository)
         {
             this.currentBuilding = buildingToEdit;
             this.isEditMode = true;
-            this.Text = "FrmEditBuilding";
-            button1.Text = "OK";
+            this.Text = "Izmeni zgradu";
+            button1.Text = "Sačuvaj izmene";
             txtAddress.Text = buildingToEdit.Address;
+            textBox1.Text = buildingToEdit.City;
         }
-        public FrmAddBuildings(FrmBuildings frmBuildings, BuildingService service)
-        {
-            InitializeComponent();
-            this.FrmBuildings = frmBuildings;
-            this.service = service;
-        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!isEditMode)
+            string address = txtAddress.Text.Trim();
+            string city = textBox1.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(address) || string.IsNullOrWhiteSpace(city))
             {
-                Building building = new Building();
-                if (txtAddress.Text == "")
-                {
-                    return;
-                }
-                string address = txtAddress.Text;
-                building.Id = Guid.NewGuid();
-                building.Address = address;
-                service.Create(building);
-                FrmBuildings.bindingSource1.Add(building);
-                FrmBuildings.PopulateDataGridView();
+                MessageBox.Show("Unesite i adresu i grad.", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }  
+            if (isEditMode)
+            {
+                currentBuilding.Address = address;
+                currentBuilding.City = city;
+                buildingRepository.Update(currentBuilding);
             }
             else
             {
-                currentBuilding.Address = txtAddress.Text;
-                service.Update(currentBuilding);
-                this.Close();
+                var newBuilding = new Building
+                {
+                    Id = Guid.NewGuid(),
+                    Address = address,
+                    City = city,
+                };
+                buildingRepository.Insert(newBuilding);
+                parentForm.bindingSource1.Add(newBuilding);
             }
+            parentForm.bindingSource1.ResetBindings(false);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
+
         private void txtAddress_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Back)
-            {
                 return;
-            }
-            if (!Char.IsLetter(e.KeyChar) && !Char.IsWhiteSpace(e.KeyChar))
-            {
+
+            if (!char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
                 e.Handled = true;
-            }
+        }
+
+        public bool IsValidAddress(string address)
+        {
+            return Regex.IsMatch(address, @"^[a-zA-ZšđčćžŠĐČĆŽ\s]+$");
         }
     }
 }
