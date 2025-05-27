@@ -444,6 +444,7 @@ namespace CleverEstate.Forms.Invoices
             this.Font = new System.Drawing.Font("Arial", 10F);
             this.Name = "FrmInvoice";
             this.Text = "Invoice Form";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmInvoice_FormClosing);
             this.Load += new System.EventHandler(this.FrmInvoice_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
