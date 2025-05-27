@@ -385,6 +385,11 @@ namespace CleverEstate.Forms.Invoices
         }
         private void button2_Click(object sender, EventArgs e)
         {
+            Save();  
+        }
+
+        private void Save()
+        {
             DateTime date = dateTimePickerDate.Value;
             DateTime paymentDeadline = dateTimePickerPaymentDeadline.Value;
             DateTime invoiceDate = dateTimePickerInvoiceDate.Value;
@@ -405,6 +410,7 @@ namespace CleverEstate.Forms.Invoices
             SaveInvoice(invoiceId, date, paymentDeadline, invoiceDate, month, period, invoiceNumber, clientId);
             SaveInvoiceItems(invoiceId);
         }
+
         private void SaveInvoiceItems(Guid invoiceId)
         {
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
@@ -830,6 +836,10 @@ namespace CleverEstate.Forms.Invoices
                 doc.Save();
             }
             Process.Start(new ProcessStartInfo(tempPath) { UseShellExecute = true });
+        }
+        private void FrmInvoice_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Save();
         }
     }
 }
