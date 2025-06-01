@@ -31,8 +31,6 @@ namespace CleverEstate.Forms.Clients
             bindingSource1.DataSource = clientList;
             dataGridView1.DataSource = bindingSource1;
         }
-  
- 
         private void addNewRowButton_Click(object sender, EventArgs e)
         {
             FrmAddClient frmAddClient = new FrmAddClient(this, repository);
@@ -86,7 +84,6 @@ namespace CleverEstate.Forms.Clients
                 dataGridView1.Columns["InvoiceId"].Visible = false;
             }
         }
-
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0)
