@@ -1,4 +1,4 @@
-﻿using CleverEstate.Models;
+using CleverEstate.Models;
 using CleverEstate.Services.Classes;
 using System.Drawing;
 using System.Windows.Forms;
@@ -8,13 +8,13 @@ namespace CleverEstate.Forms.Buildings
 {
     public partial class FrmBuildings : Form
     {
-        private readonly BuildingRepository repository;
-        public readonly BindingSource bindingSource1 = new BindingSource();
-        private readonly Button addNewRowButton = new Button();
-        private readonly Button exitButton = new Button();
-        private readonly Font font = new Font("Segoe UI", 12);
-        private readonly Label titleLabel = new Label();
-        private readonly Panel topPanel = new Panel();
+        private  BuildingRepository repository;
+        public  BindingSource bindingSource1 = new BindingSource();
+        private  Button addNewRowButton = new Button();
+        private  Button exitButton = new Button();
+        private  Font font = new Font("Times New Roman", 14);
+        private  Label titleLabel = new Label();
+        private  Panel topPanel = new Panel();
         public FrmBuildings()
         {
             InitializeComponent();
@@ -51,10 +51,8 @@ namespace CleverEstate.Forms.Buildings
         private void SetupDataGridView()
         {
             this.Controls.Add(dataGridView1);
-            dataGridView1.Location = new Point(10, 60); // Adjusted for better spacing
-            dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - 140); // Responsive to form size
-            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(35, 35, 35); // Dark background
-            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White; // White text for contrast
+            dataGridView1.Location = new Point(10, 60); 
+            dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - 140);
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
             dataGridView1.GridColor = Color.Gray;
@@ -62,7 +60,7 @@ namespace CleverEstate.Forms.Buildings
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.MultiSelect = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 12);
+            dataGridView1.DefaultCellStyle.Font = font;
         }
         private void SetupLayout()
         {
@@ -72,23 +70,23 @@ namespace CleverEstate.Forms.Buildings
             topPanel.Height = 60;
             this.Controls.Add(topPanel);
             titleLabel.Text = "Zgrade";
-            titleLabel.Font = new Font("Segoe UI", 16, FontStyle.Bold);
+            titleLabel.Font = font;
             titleLabel.AutoSize = true;
             titleLabel.Location = new Point(20, 15); 
             topPanel.Controls.Add(titleLabel);
-            addNewRowButton.Text = "Add Row";
+            addNewRowButton.Text = "Dodaj zgradu";
             addNewRowButton.Font = font;
             addNewRowButton.Size = new Size(100, 40);
-            addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 10); // Positioned at top-right
+            addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 10); 
             addNewRowButton.FlatStyle = FlatStyle.Flat;
             addNewRowButton.FlatAppearance.BorderSize = 0;
             addNewRowButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             addNewRowButton.Click += addNewRowButton_Click;
             topPanel.Controls.Add(addNewRowButton);
-            exitButton.Text = "Exit";
+            exitButton.Text = "Izadji";
             exitButton.Font = font;
             exitButton.Size = new Size(100, 50);
-            exitButton.Location = new Point(this.ClientSize.Width - 120, this.ClientSize.Height - 60); // Positioned at bottom-right
+            exitButton.Location = new Point(this.ClientSize.Width - 120, this.ClientSize.Height - 60);
             exitButton.FlatStyle = FlatStyle.Flat;
             exitButton.FlatAppearance.BorderSize = 0;
             exitButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
@@ -96,14 +94,12 @@ namespace CleverEstate.Forms.Buildings
             this.Controls.Add(exitButton);
             AdjustLayout(); 
         }
-
         private void AdjustLayout()
         {
-            addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 10); // Right aligned
-            exitButton.Location = new Point(this.ClientSize.Width - 120, this.ClientSize.Height - 60); // Right aligned at bottom
+            addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 10);
+            exitButton.Location = new Point(this.ClientSize.Width - 120, this.ClientSize.Height - 60); 
             dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - 140);
         }
-
         private void addNewRowButton_Click(object sender, EventArgs e)
         {
             FrmAddBuildings frmAdd = new FrmAddBuildings(this, repository);
@@ -112,7 +108,6 @@ namespace CleverEstate.Forms.Buildings
                 LoadBuildingsFromRepository();
             }
         }
-
         private void exitButton_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -151,8 +146,7 @@ namespace CleverEstate.Forms.Buildings
                 dataGridView1.Columns["City"].DisplayIndex = 1;
             }
         }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+       private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
