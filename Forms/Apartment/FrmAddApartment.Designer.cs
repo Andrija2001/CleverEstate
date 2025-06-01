@@ -1,4 +1,4 @@
-﻿namespace CleverEstate.Forms.Apartments
+namespace CleverEstate.Forms.Apartments
 {
     partial class FrmAddApartment
     {
@@ -63,67 +63,70 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(49, 90);
+            this.label3.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(45, 89);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(49, 20);
+            this.label3.Size = new System.Drawing.Size(57, 21);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Client";
+            this.label3.Text = "Klijent";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtNumber
             // 
             this.txtNumber.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtNumber.Location = new System.Drawing.Point(151, 10);
+            this.txtNumber.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNumber.Location = new System.Drawing.Point(151, 5);
             this.txtNumber.Name = "txtNumber";
-            this.txtNumber.Size = new System.Drawing.Size(142, 20);
+            this.txtNumber.Size = new System.Drawing.Size(142, 29);
             this.txtNumber.TabIndex = 3;
             // 
             // txtArea
             // 
             this.txtArea.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtArea.Location = new System.Drawing.Point(151, 50);
+            this.txtArea.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtArea.Location = new System.Drawing.Point(151, 45);
             this.txtArea.Name = "txtArea";
-            this.txtArea.Size = new System.Drawing.Size(142, 20);
+            this.txtArea.Size = new System.Drawing.Size(142, 29);
             this.txtArea.TabIndex = 4;
             // 
             // cmbClients
             // 
             this.cmbClients.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmbClients.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbClients.FormattingEnabled = true;
-            this.cmbClients.Location = new System.Drawing.Point(151, 89);
+            this.cmbClients.Location = new System.Drawing.Point(151, 84);
             this.cmbClients.Name = "cmbClients";
-            this.cmbClients.Size = new System.Drawing.Size(142, 21);
+            this.cmbClients.Size = new System.Drawing.Size(142, 29);
             this.cmbClients.TabIndex = 5;
             // 
             // label2
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(52, 50);
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(36, 49);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 20);
+            this.label2.Size = new System.Drawing.Size(75, 21);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Area";
+            this.label2.Text = "Površina";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(41, 10);
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(31, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 20);
+            this.label1.Size = new System.Drawing.Size(85, 21);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Number";
+            this.label1.Text = "Broj stana";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button1
             // 
             this.button1.AutoSize = true;
-            this.button1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.Location = new System.Drawing.Point(125, 160);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(121, 41);
@@ -147,11 +150,9 @@
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
-
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label3;
