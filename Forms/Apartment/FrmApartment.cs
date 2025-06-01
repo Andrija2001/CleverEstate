@@ -1,4 +1,4 @@
-﻿using CleverEstate.Models;
+using CleverEstate.Models;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -14,18 +14,18 @@ namespace CleverEstate.Forms.Apartments
 {
     public partial class FrmApartment : Form
     {
-        private readonly ApartmentRepository repository;
-        private readonly BuildingRepository buildingRepository;
-        private readonly ClientRepository clientRepository;
-        public readonly BindingSource bindingSource1 = new BindingSource();
-        private readonly Button addNewRowButton = new Button();
-        private readonly Button exitButton = new Button();
-        private readonly Font font = new Font("Segoe UI", 12);
-        private readonly Label titleLabel = new Label();
-        private readonly Label lblZgrade = new Label();
-        private readonly ComboBox comboBoxAdd = new ComboBox();
-        private readonly Button btnAdd = new Button();
-        private readonly Panel topPanel = new Panel();
+        private  ApartmentRepository repository;
+        private  BuildingRepository buildingRepository;
+        private  ClientRepository clientRepository;
+        public  BindingSource bindingSource1 = new BindingSource();
+        private  Button addNewRowButton = new Button();
+        private  Button exitButton = new Button();
+        private  Font font = new Font("Times New Roman", 14);
+        private  Label titleLabel = new Label();
+        private  Label lblZgrade = new Label();
+        private  ComboBox comboBoxAdd = new ComboBox();
+        private  Button btnAdd = new Button();
+        private  Panel topPanel = new Panel();
         public FrmApartment()
         {
             InitializeComponent();
@@ -82,6 +82,8 @@ namespace CleverEstate.Forms.Apartments
             this.Controls.Add(dataGridView1);
             dataGridView1.Location = new Point(10, 100);
             dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - 140);
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+           
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(35, 35, 35);
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
@@ -92,23 +94,26 @@ namespace CleverEstate.Forms.Apartments
             dataGridView1.MultiSelect = false;
             dataGridView1.AutoGenerateColumns = true;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 12);
+            dataGridView1.DefaultCellStyle.Font = font;
+         
+
         }
-       private void SetupLayout()
+        private void SetupLayout()
         {
             this.Size = new Size(800, 600);
-            this.Text = "Zgrade";
+            this.Text = "Stanovi";
             topPanel.Dock = DockStyle.Top;
             topPanel.Height = 100;
             this.Controls.Add(topPanel);
-            titleLabel.Text = "Zgrade";
-            titleLabel.Font = new Font("Segoe UI", 16, FontStyle.Bold);
+            titleLabel.Text = "Stanovi";
+            titleLabel.Font = new Font("Times New Roman", 14);
             titleLabel.AutoSize = true;
             titleLabel.Location = new Point(20, 15);
             topPanel.Controls.Add(titleLabel);
             addNewRowButton.Text = "Add Row";
             addNewRowButton.Font = font;
             addNewRowButton.Size = new Size(100, 40);
+            addNewRowButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 55);
             addNewRowButton.FlatStyle = FlatStyle.Flat;
             addNewRowButton.FlatAppearance.BorderSize = 0;
@@ -118,20 +123,32 @@ namespace CleverEstate.Forms.Apartments
             lblZgrade.Text = "Adresa:";
             lblZgrade.Font = font;
             lblZgrade.AutoSize = true;
-            lblZgrade.Location = new Point(this.ClientSize.Width - 250, 30);
+            lblZgrade.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblZgrade.Location = new Point(this.ClientSize.Width - 250, 22);
             topPanel.Controls.Add(lblZgrade);
-            comboBoxAdd.Location = new Point(this.ClientSize.Width - 180, 32);
+            comboBoxAdd.Location = new Point(this.ClientSize.Width - 180, 20);
             comboBoxAdd.Size = new Size(120, 30);
-            comboBoxAdd.Anchor = AnchorStyles.Top;
+            comboBoxAdd.Font = font;
+            comboBoxAdd.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboBoxAdd.SelectedIndexChanged += AddressFilter;
             topPanel.Controls.Add(comboBoxAdd);
-            exitButton.Text = "Exit";
+            exitButton.Text = "Izadji";
             exitButton.Font = font;
             exitButton.Size = new Size(100, 30);
+            exitButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             exitButton.Location = new Point(this.ClientSize.Width - 100, this.ClientSize.Height - 20);
             exitButton.FlatStyle = FlatStyle.Flat;
             exitButton.FlatAppearance.BorderSize = 0;          
             this.Controls.Add(exitButton);
+            this.Resize += FrmApartment_Resize;
+        }
+        private void FrmApartment_Resize(object sender, EventArgs e)
+        {
+            addNewRowButton.Location = new Point(topPanel.Width - addNewRowButton.Width - 20, 55);
+            lblZgrade.Location = new Point(topPanel.Width - 280, 30);
+            comboBoxAdd.Location = new Point(topPanel.Width - 210, 32);
+            exitButton.Location = new Point(this.ClientSize.Width - exitButton.Width - 10, this.ClientSize.Height - exitButton.Height - 10);
+            dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - topPanel.Height - exitButton.Height - 30);
         }
         private void AddressFilter(object sender, EventArgs e)
         {
@@ -175,6 +192,14 @@ namespace CleverEstate.Forms.Apartments
             if (dataGridView1.Columns.Contains("ClientId"))
             {
                 dataGridView1.Columns["ClientId"].Visible = false;
+            }
+            if (dataGridView1.Columns.Contains("ClientId"))
+            {
+                dataGridView1.Columns["Area"].HeaderText = "Površina";
+                dataGridView1.Columns["Name"].HeaderText = "Ime";
+                dataGridView1.Columns["Surname"].HeaderText = "Prezime";
+                dataGridView1.Columns["Edit"].HeaderText = "Izmeni";
+                dataGridView1.Columns["Delete"].HeaderText = "Obriši";
             }
         }
         private void addNewRowButton_Click(object sender, EventArgs e)
