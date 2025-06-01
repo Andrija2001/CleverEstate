@@ -1,87 +1,112 @@
-using CleverEstate.Forms.Clients;
 using CleverEstate.Models;
-using CleverEstate.Services.Classes;
 using CleverEstate.Services.Classes.Repository;
-using CleverEstate.Services.Interface;
 using CleverState.Services.Classes;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
+
 namespace CleverEstate.Forms.CatalogItem
 {
-    public partial class FrmAddItemCatalog : Form
+    public partial class FrmItemCatalog : Form
     {
-        private ItemCatalogRepository _repository;
-        FrmItemCatalog FrmItemCatalog;
-        private ItemCatalog currentCatalogItem;
-        private bool isEditMode;
-        public FrmAddItemCatalog(FrmItemCatalog parentForm, ItemCatalogRepository itemCatalogRepository, ItemCatalog CatalogItemToEdit)
-        : this(parentForm, itemCatalogRepository)
+
+        public BindingSource bindingSource1 = new BindingSource();
+        private ItemCatalogRepository repository;
+        Font font = new Font("Times New Roman", 14);
+        public FrmItemCatalog()
         {
-            this.currentCatalogItem = CatalogItemToEdit;
-            this.isEditMode = true;
-            this.Text = "FrmEditClients";
-            button1.Text =  "OK";
-            txtName.Text = CatalogItemToEdit.Name;
-            txtPricePerUnit.Text = CatalogItemToEdit.PricePerUnit.ToString();
-            comboBox1.SelectedItem = CatalogItemToEdit.Unit;
-        }
-        public FrmAddItemCatalog(FrmItemCatalog frmItemCatalog, ItemCatalogRepository itemCatalogRepository)
-        {
+            repository = new ItemCatalogRepository(new DataDbContext());
             InitializeComponent();
-            this.FrmItemCatalog = frmItemCatalog;
-            this._repository = itemCatalogRepository;
-            _repository = new ItemCatalogRepository(new DataDbContext());
+            bindingSource1.DataSource = typeof(ItemCatalog);
+        }
+        private void FrmItemCatalog_Load(object sender, EventArgs e)
+        {
+            LoadCatalogItems();
+            dataGridView1.Font = new Font("Times New Roman", 14);
 
         }
-        private void button1_Click(object sender, EventArgs e)
+        private void LoadCatalogItems()
         {
-            if (!isEditMode)
+            var listItemCatalogs = repository.GetAll();
+            bindingSource1.DataSource = listItemCatalogs;
+            dataGridView1.DataSource = bindingSource1;
+        }
+
+        private void addNewRowButton_Click(object sender, EventArgs e)
+        {
+            FrmAddItemCatalog frmAddItemCatalog = new FrmAddItemCatalog(this, repository);
+            frmAddItemCatalog.ShowDialog();
+        }
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (!dataGridView1.Columns.Contains("Edit"))
             {
-                ItemCatalog itemCatalog = new ItemCatalog();
-                if  (txtName.Text == "" || txtPricePerUnit.Text == "")
+                var btnEdit = new DataGridViewButtonColumn
                 {
-                    return;
-                }
-                string name = txtName.Text;
-                decimal pricePerUnit = decimal.Parse(txtPricePerUnit.Text);
-                string unit = comboBox1.SelectedItem.ToString();
-                itemCatalog.Id = Guid.NewGuid();
-                itemCatalog.Name = name;
-                itemCatalog.PricePerUnit = pricePerUnit;
-                itemCatalog.Unit = unit;
-                _repository.Insert(itemCatalog);
-                FrmItemCatalog.bindingSource1.Add(itemCatalog);
+                    Name = "Edit",
+                    Text = "Izmeni",
+                    UseColumnTextForButtonValue = true
+                };
+                dataGridView1.Columns.Add(btnEdit);
             }
-            else
+            dataGridView1.Columns["Edit"].HeaderText = "";
+            if (dataGridView1.Columns.Count > 2)
             {
-                currentCatalogItem.Name = txtName.Text;
-                currentCatalogItem.PricePerUnit = decimal.Parse(txtPricePerUnit.Text);
-                currentCatalogItem.Unit = comboBox1.SelectedItem.ToString();    
-                _repository.Update(currentCatalogItem);
-                this.Close();
+                dataGridView1.Columns["Edit"].DisplayIndex = 4;
             }
-        }
-        private void txtUnit_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
-                 (e.KeyChar != '.'))
+            if (!dataGridView1.Columns.Contains("Delete"))
             {
-                e.Handled = true;
+                var btnDelete = new DataGridViewButtonColumn
+                {
+                    Name = "Delete",
+                    Text = "Izbriši",
+                    UseColumnTextForButtonValue = true,
+                };
+                dataGridView1.Columns.Add(btnDelete);
             }
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            dataGridView1.Columns["Delete"].HeaderText = "";
+            if (dataGridView1.Columns.Count > 3)
             {
-                e.Handled = true;
+                dataGridView1.Columns["Delete"].DisplayIndex = 5;
+            }
+            if (dataGridView1.Columns.Contains("Id"))
+            {
+                dataGridView1.Columns["Id"].Visible = false;
             }
         }
-        private void txtName_KeyPress(object sender, KeyPressEventArgs e)
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Back)
-            {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0)
                 return;
-            }
-            if (!Char.IsLetter(e.KeyChar) && !Char.IsWhiteSpace(e.KeyChar))
+
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Delete")
             {
-                e.Handled = true;
+                var buildingToDelete = (Guid)dataGridView1.Rows[e.RowIndex].Cells["Id"].Value;
+                repository.Delete(buildingToDelete);
+                BindingSource bindingSource = (BindingSource)dataGridView1.DataSource;
+                bindingSource.RemoveAt(e.RowIndex);
+                dataGridView1.Refresh();
+            }
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Edit")
+            {
+                var selectedCatalogItem = (ItemCatalog)dataGridView1.Rows[e.RowIndex].DataBoundItem;
+                FrmAddItemCatalog frm3 = new FrmAddItemCatalog(this, repository, selectedCatalogItem);
+                frm3.ShowDialog();
+                int index = bindingSource1.IndexOf(selectedCatalogItem);
+                if (index != -1)
+                {
+                    var updatedItemCatalog = new ItemCatalog
+                    {
+                        Id = selectedCatalogItem.Id,
+                        Name = selectedCatalogItem.Name,
+                        PricePerUnit = selectedCatalogItem.PricePerUnit,
+                        Unit = selectedCatalogItem.Unit,
+                    };
+                    repository.Update(updatedItemCatalog);
+                    bindingSource1[index] = updatedItemCatalog;
+                    bindingSource1.ResetBindings(false);
+                }
             }
         }
     }
