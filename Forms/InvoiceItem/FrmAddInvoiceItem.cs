@@ -63,15 +63,17 @@ namespace CleverEstate.Forms.InvoiceItems
             var allInvoiceItems = _invoiceItemRepository.GetAll();
             var allInvoices = invoiceRepository.GetAll();
 
-            var existingItemInSameInvoice = _invoiceItemRepository.GetAll()
-            .FirstOrDefault(ii => ii.InvoiceId == _invoiceId && ii.ItemCatalogId == itemCatalogId);
-
-            if (existingItemInSameInvoice != null)
+            foreach (DataGridViewRow row in parentForm.dataGridView1.Rows)
             {
-                MessageBox.Show("Ova stavka već postoji u ovoj fakturi.");
-                return;
-            }
+                if (row.IsNewRow) continue;
 
+                var rowItemCatalogId = (Guid)row.Cells["ItemCatalogId"].Value;
+                if (rowItemCatalogId == itemCatalogId)
+                {
+                    MessageBox.Show("Ova stavka već postoji u ovoj fakturi.");
+                    return;
+                }
+            }
 
             var invoiceItem = new InvoiceItem
             {
