@@ -19,15 +19,13 @@ namespace CleverEstate.Forms.Buildings
         {
             InitializeComponent();
             repository = new BuildingRepository(new DataDbContext());
-            InitializeDataGridView();
-            SetupLayout();
             Load += FrmBuildings_Load;
-            Resize += FrmBuildings_Resize; 
+            Resize += FrmBuildings_Resize;
+            dataGridView1.Font = font;
         }
 
         private void FrmBuildings_Load(object sender, EventArgs e)
         {
-            SetupDataGridView();
             LoadBuildingsFromRepository();
         }
         private void FrmBuildings_Resize(object sender, EventArgs e)
@@ -40,60 +38,9 @@ namespace CleverEstate.Forms.Buildings
             bindingSource1.DataSource = buildingList;
             dataGridView1.DataSource = bindingSource1;
         }
-        private void InitializeDataGridView()
-        {
-            dataGridView1.AutoGenerateColumns = true;
-            dataGridView1.DataSource = bindingSource1;
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
-            dataGridView1.BorderStyle = BorderStyle.None;
-            dataGridView1.DataBindingComplete += dataGridView1_DataBindingComplete;
-        }
-        private void SetupDataGridView()
-        {
-            this.Controls.Add(dataGridView1);
-            dataGridView1.Location = new Point(10, 60); 
-            dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - 140);
-            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dataGridView1.GridColor = Color.Gray;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.MultiSelect = false;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.DefaultCellStyle.Font = font;
-        }
-        private void SetupLayout()
-        {
-            this.Size = new Size(800, 600);
-            this.Text = "Zgrade";
-            topPanel.Dock = DockStyle.Top;
-            topPanel.Height = 60;
-            this.Controls.Add(topPanel);
-            titleLabel.Text = "Zgrade";
-            titleLabel.Font = font;
-            titleLabel.AutoSize = true;
-            titleLabel.Location = new Point(20, 15); 
-            topPanel.Controls.Add(titleLabel);
-            addNewRowButton.Text = "Dodaj zgradu";
-            addNewRowButton.Font = font;
-            addNewRowButton.Size = new Size(100, 40);
-            addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 10); 
-            addNewRowButton.FlatStyle = FlatStyle.Flat;
-            addNewRowButton.FlatAppearance.BorderSize = 0;
-            addNewRowButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            addNewRowButton.Click += addNewRowButton_Click;
-            topPanel.Controls.Add(addNewRowButton);
-            exitButton.Text = "Izadji";
-            exitButton.Font = font;
-            exitButton.Size = new Size(100, 50);
-            exitButton.Location = new Point(this.ClientSize.Width - 120, this.ClientSize.Height - 60);
-            exitButton.FlatStyle = FlatStyle.Flat;
-            exitButton.FlatAppearance.BorderSize = 0;
-            exitButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            exitButton.Click += exitButton_Click;
-            this.Controls.Add(exitButton);
-            AdjustLayout(); 
-        }
+   
+  
+     
         private void AdjustLayout()
         {
             addNewRowButton.Location = new Point(this.ClientSize.Width - 120, 10);
@@ -119,7 +66,7 @@ namespace CleverEstate.Forms.Buildings
                 var btnEdit = new DataGridViewButtonColumn
                 {
                     Name = "Edit",
-                    Text = "Edit",
+                    Text = "Izmeni",
                     UseColumnTextForButtonValue = true,
                 };
                 dataGridView1.Columns.Add(btnEdit);
@@ -129,7 +76,7 @@ namespace CleverEstate.Forms.Buildings
                 var btnDelete = new DataGridViewButtonColumn
                 {
                     Name = "Delete",
-                    Text = "Delete",
+                    Text = "Obriši",
                     UseColumnTextForButtonValue = true,
                 };
                 dataGridView1.Columns.Add(btnDelete);
@@ -144,6 +91,12 @@ namespace CleverEstate.Forms.Buildings
                 dataGridView1.Columns["Edit"].DisplayIndex = 3;
                 dataGridView1.Columns["Address"].DisplayIndex = 0;
                 dataGridView1.Columns["City"].DisplayIndex = 1;
+            }
+            if (dataGridView1.Columns.Count > 3)
+            {
+                dataGridView1.Columns["Delete"].HeaderText = "Obrisi";
+                dataGridView1.Columns["Edit"].HeaderText = "Izmeni";
+                dataGridView1.Columns["Address"].HeaderText = "Adresa";
             }
         }
        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
