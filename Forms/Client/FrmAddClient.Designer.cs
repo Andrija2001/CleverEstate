@@ -52,11 +52,11 @@ namespace CleverEstate.Forms.Clients
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(35, 7);
+            this.label3.Location = new System.Drawing.Point(40, 7);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 21);
+            this.label3.Size = new System.Drawing.Size(63, 21);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Address";
+            this.label3.Text = "Adresa";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // txtName
