@@ -78,7 +78,7 @@ namespace CleverEstate.Forms.InvoiceItems
             this.txtPricePerUnit.Location = new System.Drawing.Point(169, 52);
             this.txtPricePerUnit.Name = "txtPricePerUnit";
             this.txtPricePerUnit.Size = new System.Drawing.Size(158, 29);
-            this.txtPricePerUnit.TabIndex = 20;
+            this.txtPricePerUnit.TabIndex = 1;
             // 
             // label2
             // 
@@ -131,7 +131,7 @@ namespace CleverEstate.Forms.InvoiceItems
             this.txtQuantity.Location = new System.Drawing.Point(169, 8);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(158, 29);
-            this.txtQuantity.TabIndex = 19;
+            this.txtQuantity.TabIndex = 0;
             // 
             // cmbVAT
             // 
@@ -139,13 +139,14 @@ namespace CleverEstate.Forms.InvoiceItems
             this.cmbVAT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbVAT.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbVAT.FormattingEnabled = true;
+            this.cmbVAT.ItemHeight = 21;
             this.cmbVAT.Items.AddRange(new object[] {
             "20%",
             "10%"});
-            this.cmbVAT.Location = new System.Drawing.Point(169, 95);
+            this.cmbVAT.Location = new System.Drawing.Point(169, 96);
             this.cmbVAT.Name = "cmbVAT";
             this.cmbVAT.Size = new System.Drawing.Size(158, 29);
-            this.cmbVAT.TabIndex = 24;
+            this.cmbVAT.TabIndex = 2;
             // 
             // label1
             // 
@@ -164,10 +165,10 @@ namespace CleverEstate.Forms.InvoiceItems
             this.cmbItems.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbItems.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbItems.FormattingEnabled = true;
-            this.cmbItems.Location = new System.Drawing.Point(169, 183);
+            this.cmbItems.Location = new System.Drawing.Point(169, 184);
             this.cmbItems.Name = "cmbItems";
             this.cmbItems.Size = new System.Drawing.Size(158, 29);
-            this.cmbItems.TabIndex = 12;
+            this.cmbItems.TabIndex = 4;
             this.cmbItems.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
             // cmbVATRate
@@ -179,10 +180,10 @@ namespace CleverEstate.Forms.InvoiceItems
             this.cmbVATRate.Items.AddRange(new object[] {
             "Opšta stopa",
             "Posebna stopa"});
-            this.cmbVATRate.Location = new System.Drawing.Point(169, 139);
+            this.cmbVATRate.Location = new System.Drawing.Point(169, 140);
             this.cmbVATRate.Name = "cmbVATRate";
             this.cmbVATRate.Size = new System.Drawing.Size(158, 29);
-            this.cmbVATRate.TabIndex = 25;
+            this.cmbVATRate.TabIndex = 3;
             this.cmbVATRate.SelectedIndexChanged += new System.EventHandler(this.cmbVATRate_SelectedIndexChanged);
             // 
             // button1
@@ -192,7 +193,7 @@ namespace CleverEstate.Forms.InvoiceItems
             this.button1.Location = new System.Drawing.Point(112, 249);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(133, 41);
-            this.button1.TabIndex = 1;
+            this.button1.TabIndex = 5;
             this.button1.Text = "OK";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
