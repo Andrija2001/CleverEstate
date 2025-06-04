@@ -109,7 +109,10 @@ namespace CleverEstate.Forms.Invoices
                 item.VATRate
                 );
             }
+            dataGridView1.Columns.Clear();
+            dataGridView1.AutoGenerateColumns = true;
             dataGridView1.DataSource = table;
+       
             dataGridView1.Refresh();
 
             UpdateTotalSum();
@@ -314,7 +317,9 @@ namespace CleverEstate.Forms.Invoices
                 dataGridView1.Columns["ItemCatalogId"].Visible = false;
             if (dataGridView1.Columns.Contains("InvoiceItemId"))
                 dataGridView1.Columns["InvoiceItemId"].Visible = false;
-      
+            if (dataGridView1.Columns.Contains("Id"))
+                dataGridView1.Columns["Id"].Visible = false;
+
         }
         private void SaveQuantityChange(DataRowView dataRowView)
         {
@@ -747,6 +752,6 @@ namespace CleverEstate.Forms.Invoices
             }
         }
 
-       
+        
     }
 }
