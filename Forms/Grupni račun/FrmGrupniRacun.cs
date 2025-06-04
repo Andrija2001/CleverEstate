@@ -1,4 +1,4 @@
-﻿using CleverEstate.Models;
+using CleverEstate.Models;
 using CleverEstate.Services.Interface.Repository;
 using CleverEstate.Services.Interface;
 using System;
@@ -54,7 +54,7 @@ namespace CleverEstate.Forms
         {
             var selectedBuildingId = (Guid)cmbAdresa.SelectedValue;
             var mesec = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
-          //  KreirajRacuneZaZgradu(selectedBuildingId, mesec);
+            KreirajRacuneZaZgradu(selectedBuildingId, mesec);
             DodajRacuneUBazu(selectedBuildingId,mesec);
             _mainForm.LoadData();
 
@@ -140,10 +140,7 @@ namespace CleverEstate.Forms
 
                 invoiceRepository.Insert(newInvoice);
             }
-            invoiceRepository.Save(); // Dodaj ovo ako postoji u repozitorijumu
-
-
-            MessageBox.Show("Računi su uspešno sačuvani u bazu.");
+            invoiceRepository.Save(); 
         }
         private void KreirajRacuneZaZgradu(Guid buildingId, DateTime mesec)
         {
@@ -165,7 +162,6 @@ namespace CleverEstate.Forms
             DateTime periodEnd = periodStart.AddMonths(1).AddDays(-1);
             string periodText = $"{periodStart:dd.MM.yyyy} - {periodEnd:dd.MM.yyyy}";
             var itemCatalogList = itemCatalogRepository.GetAll().ToList();
-
             string fileName = $"GrupniRacuni.docx";
             string filePath = Path.Combine(Path.GetTempPath(), fileName);
 
@@ -287,23 +283,19 @@ namespace CleverEstate.Forms
             contactTable.Rows[0].Cells[1].Paragraphs[0].Append(clientText).FontSize(10).Alignment = Alignment.right;
             doc.InsertTable(contactTable);
             doc.InsertParagraph(Environment.NewLine);
-
             var firstItem = invoiceItems.First();
             doc.InsertParagraph("Mesto i datum izdavanja: " + invoiceDate.ToShortDateString()).Alignment = Alignment.left;
             doc.InsertParagraph("Datum prometa: " + invoiceDate.ToShortDateString()).Alignment = Alignment.left;
             doc.InsertParagraph("Period: " + period).Alignment = Alignment.left;
             doc.InsertParagraph(Environment.NewLine);
-
             Table table = doc.AddTable(invoiceItems.Count + 1, 9);
             table.Alignment = Alignment.center;
             table.Design = TableDesign.TableGrid;
-
             string[] headers = { "Broj", "Vrsta dobara", "Jedinica mere", "Količina", "Cena po jedinici", "Osnovica", "Stopa PDV", "PDV", "Ukupna naknada" };
             for (int i = 0; i < headers.Length; i++)
             {
                 table.Rows[0].Cells[i].Paragraphs[0].Append(headers[i]).Bold();
             }
-
             decimal total = 0;
             for (int i = 0; i < invoiceItems.Count; i++)
             {
@@ -341,7 +333,5 @@ namespace CleverEstate.Forms
             doc.InsertParagraph("-Račun je validan bez pečata i potpisa").Alignment = Alignment.left;
             doc.InsertParagraph("-U pozivu na broj navedite broj računa").Alignment = Alignment.left;
         }
-
-
     }
 }
