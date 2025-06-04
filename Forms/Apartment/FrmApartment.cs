@@ -82,8 +82,7 @@ namespace CleverEstate.Forms.Apartments
             this.Controls.Add(dataGridView1);
             dataGridView1.Location = new Point(10, 100);
             dataGridView1.Size = new Size(this.ClientSize.Width - 20, this.ClientSize.Height - 140);
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-           
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;         
             dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(35, 35, 35);
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
@@ -94,23 +93,22 @@ namespace CleverEstate.Forms.Apartments
             dataGridView1.MultiSelect = false;
             dataGridView1.AutoGenerateColumns = true;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.DefaultCellStyle.Font = font;
-         
+            dataGridView1.Font = font;
 
         }
         private void SetupLayout()
         {
             this.Size = new Size(800, 600);
-            this.Text = "Stanovi";
+            this.Text = "Stan";
             topPanel.Dock = DockStyle.Top;
             topPanel.Height = 100;
             this.Controls.Add(topPanel);
-            titleLabel.Text = "Stanovi";
+            titleLabel.Text = "Stan";
             titleLabel.Font = new Font("Times New Roman", 14);
             titleLabel.AutoSize = true;
             titleLabel.Location = new Point(20, 15);
             topPanel.Controls.Add(titleLabel);
-            addNewRowButton.Text = "Add Row";
+            addNewRowButton.Text = "Dodaj stan";
             addNewRowButton.Font = font;
             addNewRowButton.Size = new Size(100, 40);
             addNewRowButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -200,6 +198,8 @@ namespace CleverEstate.Forms.Apartments
                 dataGridView1.Columns["Surname"].HeaderText = "Prezime";
                 dataGridView1.Columns["Edit"].HeaderText = "Izmeni";
                 dataGridView1.Columns["Delete"].HeaderText = "Obriši";
+                 dataGridView1.Columns["Number"].HeaderText = "Broj";
+
             }
         }
         private void addNewRowButton_Click(object sender, EventArgs e)
@@ -213,7 +213,8 @@ namespace CleverEstate.Forms.Apartments
             }
             else
             {
-                MessageBox.Show("Molimo izaberite adresu.", "Greska", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Molimo izaberite adresu.");
+                return;
             }
         }
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
@@ -223,7 +224,7 @@ namespace CleverEstate.Forms.Apartments
                 var btnEdit = new DataGridViewButtonColumn
                 {
                     Name = "Edit",
-                    Text = "Edit",
+                    Text = "Izmeni",
                     UseColumnTextForButtonValue = true,
                 };
                 dataGridView1.Columns.Add(btnEdit);
@@ -233,7 +234,7 @@ namespace CleverEstate.Forms.Apartments
                 var btnDelete = new DataGridViewButtonColumn
                 {
                     Name = "Delete",
-                    Text = "Delete",
+                    Text = "Obriši",
                     UseColumnTextForButtonValue = true,
                 };
                 dataGridView1.Columns.Add(btnDelete);
