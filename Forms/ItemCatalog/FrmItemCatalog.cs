@@ -73,6 +73,12 @@ namespace CleverEstate.Forms.CatalogItem
             {
                 dataGridView1.Columns["Id"].Visible = false;
             }
+            if (dataGridView1.Columns.Count > 3)
+            {
+                dataGridView1.Columns["PricePerUnit"].HeaderText = "Cena po jedinici";
+                dataGridView1.Columns["Name"].HeaderText = "Naziv dobara";
+                dataGridView1.Columns["Unit"].HeaderText = "Jedinica mere";
+            }
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
