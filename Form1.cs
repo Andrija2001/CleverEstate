@@ -35,7 +35,8 @@ namespace CleverEstate
             repozitory = new InvoiceRepository(new DataDbContext());
             buildingRepository = new BuildingRepository(new DataDbContext());
             invoiceItemRepository = new InvoiceItemRepository(new DataDbContext());
-            dataGridView1.DefaultCellStyle.Font = new Font("Times New Roman", 12);
+            dataGridView1.DefaultCellStyle.Font = new Font("Times New Roman", 14);
+            
         }
         private void BuildingToolStripMenuItem_Click(object sender, EventArgs e)
         {
