@@ -97,7 +97,9 @@ namespace CleverEstate.Forms.Invoices
             // 
             this.dataGridView1.AllowDrop = true;
             this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
             this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
@@ -167,7 +169,7 @@ namespace CleverEstate.Forms.Invoices
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(90, 31);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Add";
+            this.button1.Text = "Dodaj";
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
@@ -194,6 +196,7 @@ namespace CleverEstate.Forms.Invoices
             this.button3.TabIndex = 13;
             this.button3.Text = "Stampaj";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.btnStampaj_Click);
             // 
             // label3
             // 
@@ -484,6 +487,7 @@ namespace CleverEstate.Forms.Invoices
             // 
             // FrmInvoice
             // 
+            this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(898, 753);
             this.Controls.Add(this.tableLayoutPanel3);
@@ -512,7 +516,7 @@ namespace CleverEstate.Forms.Invoices
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ComboBox cmbApartmants;
         private System.Windows.Forms.ComboBox cmbClients;
