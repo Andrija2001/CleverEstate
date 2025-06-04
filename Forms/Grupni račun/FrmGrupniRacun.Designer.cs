@@ -1,4 +1,4 @@
-﻿namespace CleverEstate.Forms
+namespace CleverEstate.Forms
 {
     partial class FrmGrupniRacun
     {
@@ -51,10 +51,11 @@
             // 
             this.dateTimePicker1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.dateTimePicker1.CalendarFont = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker1.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(140, 64);
+            this.dateTimePicker1.Location = new System.Drawing.Point(140, 60);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(129, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(129, 29);
             this.dateTimePicker1.TabIndex = 1;
             // 
             // button1
@@ -91,7 +92,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(129, 49);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Mesec";
+            this.label2.Text = "Datum racuna";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tableLayoutPanel1
