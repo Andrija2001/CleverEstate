@@ -78,7 +78,6 @@ namespace CleverEstate.Forms.Apartments
 
                 apartmentRepository.Insert(newApartment);
                 apartmentRepository.Save();
-                
             }
             this.DialogResult = DialogResult.OK;
             this.Close();
