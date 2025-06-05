@@ -67,8 +67,8 @@ namespace CleverEstate
             dateTimePicker1.CustomFormat = "dd/MM/yyyy";
             dateTimePicker2.Format = DateTimePickerFormat.Custom;
             dateTimePicker2.CustomFormat = "dd/MM/yyyy";
-            dateTimePicker1.Value = DateTime.Today;
-            dateTimePicker2.Value = DateTime.Today.AddMonths(-1);
+            dateTimePicker2.Value = DateTime.Today;
+            dateTimePicker1.Value = DateTime.Today.AddMonths(-1);
         }
        private void DateFilterChanged()
         {
