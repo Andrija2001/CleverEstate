@@ -49,32 +49,30 @@ namespace CleverEstate.Forms
             cmbAdresa.DisplayMember = "Address";
             cmbAdresa.ValueMember = "Id";
         }
-
+       
         private void button1_Click(object sender, EventArgs e)
         {
             var selectedBuildingId = (Guid)cmbAdresa.SelectedValue;
             var mesec = new DateTime(dateTimePicker1.Value.Year, dateTimePicker1.Value.Month, 1);
-            KreirajRacuneZaZgradu(selectedBuildingId, mesec);
-            DodajRacuneUBazu(selectedBuildingId,mesec);
-            _mainForm.LoadData();
-
-        }
-        private void DodajRacuneUBazu(Guid buildingId, DateTime mesec)
-        {
-            var building = buildingRepository.GetById(buildingId);
+            var building = buildingRepository.GetById(selectedBuildingId);
             if (building == null)
             {
                 MessageBox.Show("Zgrada nije pronađena.");
                 return;
             }
-
-            var buildingApartments = apartmentRepository.GetAll().Where(a => a.BuildingId == buildingId).ToList();
+            var buildingApartments = apartmentRepository.GetAll().Where(a => a.BuildingId == selectedBuildingId).ToList();
             if (!buildingApartments.Any())
             {
                 MessageBox.Show("Zgrada nema stanove.");
                 return;
             }
+            KreirajRacuneZaZgradu(mesec,buildingApartments,building);
+            DodajRacuneUBazu(mesec,buildingApartments);
+            _mainForm.LoadData();
 
+        }
+        private void DodajRacuneUBazu(DateTime mesec, List<Apartment> buildingApartments)
+        {
             DateTime selectedDate = mesec;
             DateTime periodStart = new DateTime(selectedDate.Year, selectedDate.Month, 1);
             DateTime periodEnd = periodStart.AddMonths(1).AddDays(-1);
@@ -142,21 +140,8 @@ namespace CleverEstate.Forms
             }
             invoiceRepository.Save(); 
         }
-        private void KreirajRacuneZaZgradu(Guid buildingId, DateTime mesec)
+        private void KreirajRacuneZaZgradu(DateTime mesec, List<Apartment> buildingApartments,Building building)
         {
-            var building = buildingRepository.GetById(buildingId);
-            if (building == null)
-            {
-                MessageBox.Show("Zgrada nije pronađena.");
-                return;
-            }
-
-            var buildingApartments = apartmentRepository.GetAll().Where(a => a.BuildingId == buildingId).ToList();
-            if (!buildingApartments.Any())
-            {
-                MessageBox.Show("Zgrada nema stanove.");
-                return;
-            }
             DateTime selectedDate = dateTimePicker1.Value;
             DateTime periodStart = new DateTime(selectedDate.Year, selectedDate.Month, 1);
             DateTime periodEnd = periodStart.AddMonths(1).AddDays(-1);
